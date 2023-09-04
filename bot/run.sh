@@ -14,7 +14,7 @@ main='https://raw.githubusercontent.com/radcool510/majora-mask-bot/main/bot/main
 #
 # this will keep running the bot
 #
-function looper () {
+function looper ()  {
     while true
     do
         python3 $main $@
