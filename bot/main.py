@@ -280,11 +280,6 @@ async def number(ctx):
             break
 
 
-
-@bot.command()
-async def hello(ctx):
-  await ctx.send(ctx.author.mention + " hello!")
-
 @bot.command(aliases=['8ball'])
 async def ball(ctx,*, question):
   responses = [
