@@ -10,7 +10,6 @@ import asyncio
 import time
 from datetime import datetime
 import re
-from always_on import keep_alive
 import requests
 import json
 
@@ -517,5 +516,5 @@ async def calculate(ctx, *, expression: str):
     except Exception as e:
         await ctx.send("Invalid expression!")
 
-keep_alive()
+
 bot.run(os.environ['TOKEN'])
