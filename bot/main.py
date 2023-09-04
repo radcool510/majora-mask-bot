@@ -12,7 +12,9 @@ from datetime import datetime
 import re
 import requests
 import json
-import openai
+
+
+
 
 
 bot = commands.Bot("$", intents=discord.Intents.all())
@@ -125,29 +127,6 @@ else:
 async def on_ready():
     print(f"logged as {bot.user}")
     change_status.start()
-
-@bot.event
-async def on_message(message):
-    # Don't respond to ourselves
-    if message.author == bot.user:
-        return
-
-    # Check if the message starts with a command prefix
-    if message.content.startswith('$'):
-        # Handle commands here if needed
-        pass
-    else:
-        # If it's not a command, use GPT-3 to generate a response
-        try:
-            response = openai.Completion.create(
-                engine="text-davinci-002",
-                prompt=message.content,
-                max_tokens=50  # Adjust as needed
-            )
-
-            await message.channel.send(response.choices[0].text)
-        except Exception as e:
-            await message.channel.send(f"An error occurred: {e}")
 
 
 @bot.event
