@@ -15,9 +15,6 @@ import json
 import openai
 
 
-openai.api_key = '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'
-
-
 bot = commands.Bot("$", intents=discord.Intents.all())
 bot.remove_command('help')
 
