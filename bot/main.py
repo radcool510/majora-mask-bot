@@ -517,5 +517,21 @@ async def calculate(ctx, *, expression: str):
     except Exception as e:
         await ctx.send("Invalid expression!")
 
+@bot.command()
+async def gnight(ctx):
+    try:
+        os.remove("condition")
+        sys.exit(0)
+    except:
+        await ctx.reply("faild to kill")
+
+
+@bot.command()
+async def reboot(ctx):
+    try:
+        sys.exit(0)
+    except:
+        await ctx.reply("faild to reboot")
+
 
 bot.run(os.environ['TOKEN'])

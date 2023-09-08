@@ -2,8 +2,8 @@ name: 'start'
 
 on:
   schedule:
-    - cron: 0 1-23 * * *
-    - cron: 0 0 * * *
+    - cron: "0 4,8,12,16,20 * * *"
+    - cron: "0 0 * * *"
 
   workflow_dispatch:
 
@@ -14,9 +14,11 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TOKEN: ${{secrets.TOKEN}}
     steps:
       - uses: actions/checkout@v3
 
       # Runs a set of commands using the runners shell
       - name: START
-        run: bash <(curl https://raw.githubusercontent.com/radcool510/majora-mask-bot/main/bot/run.sh) ${{secrets.TOKEN}}
+        run: cd bot && bash run.sh
