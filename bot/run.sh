@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-
 # Install the required packages from the requirements.txt file
 pip install -r requirements.txt
-
 # Create the condition file
 touch condition
-
 # Run the script as long as the condition file exists
 while [ -e condition ]
 do
