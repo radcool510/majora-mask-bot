@@ -534,4 +534,19 @@ async def reboot(ctx):
         await ctx.reply("faild to reboot")
 
 
+
+@bot.command()
+async def timer(ctx):
+    await ctx.send("Setting a timer for 3 days")
+
+    majoras_mask_gif_url = "https://tenor.com/view/majoras-mask-zelda-moon-crash-gif-20298361"
+    await ctx.send(majoras_mask_gif_url)
+
+    duration_seconds = 3 * 24 * 60 * 60
+    
+    await asyncio.sleep(duration_seconds)
+
+    await ctx.send("You met with a terrible fate haven't you")
+
+
 bot.run(os.environ['TOKEN'])
