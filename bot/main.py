@@ -139,19 +139,6 @@ async def on_message_edit(before, after):
         await after.delete()
 
 
-
-@bot.event
-async def on_message(message):
-    if message.content.startswith('who'):
-        embedVar = discord.Embed(
-        title="ceaser", description="hey it ceaser i need help", color=0x336EFF
-          )
-        embedVar.add_field(name="listen", value="come to me", inline=False)
-        embedVar.add_field(name="fool", value="i need help", inline=False)
-        await message.channel.send(embed=embedVar)
-        await bot.process_commands(message)
-
-
 @tasks.loop(seconds=5)
 async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["hehehe", "haaaaaaaaaaaaa"])))
