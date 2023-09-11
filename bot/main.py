@@ -630,7 +630,7 @@ async def play(ctx):
     await start_game()
 
 @bot.command()
-async def help(ctx):
+async def snake_help(ctx):
     await ctx.send("To play the game, use the `$play` command.")
 
 @bot.component(custom_id="restart_button")
