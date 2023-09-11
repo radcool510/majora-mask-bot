@@ -31,14 +31,7 @@ switch_status = False
 
 words = ["king", "minecraft", "wumbee", "orange", "imagine", "ban", "alternate", "hakurei", "ng", "king of fighters", "nintendo", "fight", "python", "aleph", "tekken", "cod", "combat master", "cemu", "poop", "jabascript", "kong", "snek", "snek", "bro", "net", "oboro", "discord", "keyboard", "why", "sega", "rat", "fuck", "mark", "what", "bite", "dog", "slayer", "dragon", "gay", "shit", "ceaser", "me", "stress", "bird", "corn", "snake", "cat"]
 
-piece_symbols = {
-    'pawn': '♟',
-    'rook': '♜',
-    'knight': '♞',
-    'bishop': '♝',
-    'queen': '♛',
-    'king': '♚',
-}
+
 
 HANGMAN_STAGES = [
     "```\n"
@@ -129,67 +122,26 @@ else:
     user_data = {}
 
 
+app_screenshots = {
+    'Application 1': [
+        'https://example.com/app1_screenshot1.png',
+        'https://example.com/app1_screenshot2.png',
+        # Add more screenshot URLs for Application 1
+    ],
+    'Application 2': [
+        'https://example.com/app2_screenshot1.png',
+        'https://example.com/app2_screenshot2.png',
+        # Add more screenshot URLs for Application 2
+    ]
+
+    }
+
+
 
 @bot.event
 async def on_ready():
     print(f"logged as {bot.user}")
     change_status.start()
-
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
-    content = message.content.lower()
-    
-    if content.startswith('$piece'):
-        await move_piece(message)
-
-async def move_piece(message):
-    # Split the command into components
-    command = message.content.split()
-    if len(command) != 4:
-        await message.channel.send("Invalid move format. Use `$piece <piece> move <steps>`.")
-        return
-
-    _, piece, _, steps = command
-
-    if piece not in piece_symbols:
-        await message.channel.send("Invalid piece. Choose from: pawn, rook, knight, bishop, queen, king.")
-        return
-
-    if not steps.isdigit():
-        await message.channel.send("Invalid number of steps.")
-        return
-
-    steps = int(steps)
-
-    if steps < 1:
-        await message.channel.send("Number of steps must be greater than zero.")
-        return
-
-    # Find a random empty square on the board
-    empty_squares = [(i, j) for i in range(8) for j in range(8) if chess_board[i][j] == ' ']
-    
-    if not empty_squares:
-        await message.channel.send("No empty squares left on the board.")
-        return
-
-    random_square = random.choice(empty_squares)
-    i, j = random_square
-
-    # Move the piece to the empty square
-    chess_board[i][j] = piece_symbols[piece]
-    await display_board(message.channel)
-
-async def display_board(channel):
-    # Create an ASCII art representation of the chess board
-    board_str = ''
-    for row in chess_board:
-        board_str += ' '.join(row) + '\n'
-
-    # Send the board to the Discord channel
-    await channel.send("```\n" + board_str + "```")
 
 
 @tasks.loop(seconds=5)
@@ -381,17 +333,6 @@ async def hey(ctx):
     reaction2 = ':congaparrot:1142004332502450268'
     await msg.add_reaction(reaction1)
     await msg.add_reaction(reaction2)
-
-@bot.command()
-async def activity(ctx, user: discord.Member):
-    try:
-        for activity in user.activities:
-            if activity.type == discord.ActivityType.playing:
-                await ctx.send(f"{user.name} is playing {activity.name}")
-                return
-        await ctx.send(f"{user.name} is not playing anything.")
-    except discord.NotFound:
-        await ctx.send("User not found.")
 
 @bot.command()
 async def hangman(ctx):
@@ -595,6 +536,28 @@ async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
     for _ in range(times):
         await user.send(message)
         await ctx.message.delete()
+
+
+@bot.command()
+async def activity(ctx, user: discord.Member):
+    if user.bot:
+        await ctx.send("Bots don't have activities.")
+        return
+
+    # Select a random application from the list
+    app_name = random.choice(list(app_screenshots.keys()))
+
+    # Get a random screenshot URL for the selected application
+    screenshot_url = random.choice(app_screenshots[app_name])
+
+    # Create an embed with the user's activity and the screenshot
+    embed = discord.Embed(
+        title=f"{user.display_name} is using {app_name}",
+        description=f"![Screenshot]({screenshot_url})",
+        color=discord.Color.green()
+    )
+
+    await ctx.send(embed=embed)
 
 
 bot.run(os.environ['TOKEN'])
