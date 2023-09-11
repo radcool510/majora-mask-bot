@@ -22,10 +22,10 @@ UP = '⬆️'
 DOWN = '⬇️'
 LEFT = '⬅️'
 RIGHT = '➡️'
-INITIAL_DELAY = 3  # Initial delay in seconds before the snake starts moving
-MOVEMENT_SPEED = 1  # Snake's movement speed in seconds per move
+INITIAL_DELAY = 3
+MOVEMENT_SPEED = 1
 
-# Initialize game state
+
 snake_direction = RIGHT
 snake_length = 1
 snake_positions = [(0, 0)]
@@ -86,10 +86,10 @@ def generate_game_board():
 
 def check_collision():
     head = snake_positions[-1]
-    # check the snake hits the wall
+    # Check the snake hits the wall
     if abs(head[0]) > 10 or abs(head[1]) > 5:
         return True
-    # Check the snake hits itself
+    # check the snake hits the wall
     if head in snake_positions[:-1]:
         return True
     return False
@@ -631,27 +631,9 @@ async def play(ctx):
 
 @bot.command()
 async def help(ctx):
-    await ctx.send("To play the game, use the `$play` command.")
+    await ctx.send("To play the game, use the `!play` command.")
 
-@bot.interactions(is_global=True)
-async def snake_button(ctx):
-    await ctx.respond(ResponseType.UpdateMessage, embed=generate_embed())
-
-def generate_embed():
-    return discord.Embed(
-        title="Snake Game",
-        description="Use the buttons to control the snake!",
-        color=discord.Color.green()
-    ).add_field(
-        name="Directions",
-        value="Move Up: ⬆️\nMove Down: ⬇️\nMove Left: ⬅️\nMove Right: ➡️"
-    ).add_field(
-        name="Restart",
-        value="Press the restart button to play again!",
-        inline=False
-    )
-
-@bot.component(snake_button, custom_id="restart_button")
+@bot.component(custom_id="restart_button")
 async def restart_game(ctx):
     global game_active
     if game_active:
