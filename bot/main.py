@@ -31,6 +31,14 @@ switch_status = False
 
 words = ["king", "minecraft", "wumbee", "orange", "imagine", "ban", "alternate", "hakurei", "ng", "king of fighters", "nintendo", "fight", "python", "aleph", "tekken", "cod", "combat master", "cemu", "poop", "jabascript", "kong", "snek", "snek", "bro", "net", "oboro", "discord", "keyboard", "why", "sega", "rat", "fuck", "mark", "what", "bite", "dog", "slayer", "dragon", "gay", "shit", "ceaser", "me", "stress", "bird", "corn", "snake", "cat"]
 
+piece_symbols = {
+    'pawn': '♟',
+    'rook': '♜',
+    'knight': '♞',
+    'bishop': '♝',
+    'queen': '♛',
+    'king': '♚',
+}
 
 HANGMAN_STAGES = [
     "```\n"
@@ -127,15 +135,61 @@ async def on_ready():
     print(f"logged as {bot.user}")
     change_status.start()
 
-
 @bot.event
-async def on_message_edit(before, after):
-    if after.author == bot.user:
+async def on_message(message):
+    if message.author == bot.user:
         return
 
-    game = bot.get_cog('SnakeGame')
-    if game and game.message and after.id == game.message.id:
-        await after.delete()
+    content = message.content.lower()
+    
+    if content.startswith('$piece'):
+        await move_piece(message)
+
+async def move_piece(message):
+    # Split the command into components
+    command = message.content.split()
+    if len(command) != 4:
+        await message.channel.send("Invalid move format. Use `$piece <piece> move <steps>`.")
+        return
+
+    _, piece, _, steps = command
+
+    if piece not in piece_symbols:
+        await message.channel.send("Invalid piece. Choose from: pawn, rook, knight, bishop, queen, king.")
+        return
+
+    if not steps.isdigit():
+        await message.channel.send("Invalid number of steps.")
+        return
+
+    steps = int(steps)
+
+    if steps < 1:
+        await message.channel.send("Number of steps must be greater than zero.")
+        return
+
+    # Find a random empty square on the board
+    empty_squares = [(i, j) for i in range(8) for j in range(8) if chess_board[i][j] == ' ']
+    
+    if not empty_squares:
+        await message.channel.send("No empty squares left on the board.")
+        return
+
+    random_square = random.choice(empty_squares)
+    i, j = random_square
+
+    # Move the piece to the empty square
+    chess_board[i][j] = piece_symbols[piece]
+    await display_board(message.channel)
+
+async def display_board(channel):
+    # Create an ASCII art representation of the chess board
+    board_str = ''
+    for row in chess_board:
+        board_str += ' '.join(row) + '\n'
+
+    # Send the board to the Discord channel
+    await channel.send("```\n" + board_str + "```")
 
 
 @tasks.loop(seconds=5)
