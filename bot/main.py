@@ -18,7 +18,6 @@ import json
 
 
 bot = commands.Bot("$", intents=discord.Intents.all())
-bot.remove_command('help')
 
 allowed_user_ids = [761769388335431690, 984481582826020905, 964374501343236096, 707782594418442270, 1097879047213686875] # This is for users to access the echo command.
 
