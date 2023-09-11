@@ -115,28 +115,6 @@ board = [' '] * 9
 current_player = 'X'
 
 
-if os.path.exists('user_data.json'):
-    with open('user_data.json', 'r') as file:
-        user_data = json.load(file)
-else:
-    user_data = {}
-
-
-app_screenshots = {
-    'Application 1': [
-        'https://example.com/app1_screenshot1.png',
-        'https://example.com/app1_screenshot2.png',
-        # Add more screenshot URLs for Application 1
-    ],
-    'Application 2': [
-        'https://example.com/app2_screenshot1.png',
-        'https://example.com/app2_screenshot2.png',
-        # Add more screenshot URLs for Application 2
-    ]
-
-    }
-
-
 
 @bot.event
 async def on_ready():
@@ -540,24 +518,13 @@ async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
 
 @bot.command()
 async def activity(ctx, user: discord.Member):
-    if user.bot:
-        await ctx.send("Bots don't have activities.")
-        return
-
-    # Select a random application from the list
-    app_name = random.choice(list(app_screenshots.keys()))
-
-    # Get a random screenshot URL for the selected application
-    screenshot_url = random.choice(app_screenshots[app_name])
-
-    # Create an embed with the user's activity and the screenshot
-    embed = discord.Embed(
-        title=f"{user.display_name} is using {app_name}",
-        description=f"![Screenshot]({screenshot_url})",
-        color=discord.Color.green()
-    )
-
-    await ctx.send(embed=embed)
-
+    try:
+        for activity in user.activities:
+            if activity.type == discord.ActivityType.playing:
+                await ctx.send(f"{user.name} is playing {activity.name}")
+                return
+        await ctx.send(f"{user.name} is not playing anything.")
+    except discord.NotFound:
+        await ctx.send("User not found.")
 
 bot.run(os.environ['TOKEN'])
