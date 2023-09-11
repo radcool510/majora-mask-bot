@@ -18,81 +18,6 @@ import json
 
 bot = commands.Bot("$", intents=discord.Intents.all())
 
-UP = '⬆️'
-DOWN = '⬇️'
-LEFT = '⬅️'
-RIGHT = '➡️'
-INITIAL_DELAY = 3
-MOVEMENT_SPEED = 1
-
-
-snake_direction = RIGHT
-snake_length = 1
-snake_positions = [(0, 0)]
-game_active = False
-game_message = None
-
-async def start_game():
-    global game_active, snake_positions, snake_direction, snake_length, game_message
-    
-    game_active = True
-    snake_positions = [(0, 0)]
-    snake_direction = RIGHT
-    snake_length = 1
-
-    while game_active:
-        await asyncio.sleep(MOVEMENT_SPEED)
-        new_head = snake_positions[-1]
-
-        if snake_direction == UP:
-            new_head = (new_head[0], new_head[1] - 1)
-        elif snake_direction == DOWN:
-            new_head = (new_head[0], new_head[1] + 1)
-        elif snake_direction == LEFT:
-            new_head = (new_head[0] - 1, new_head[1])
-        elif snake_direction == RIGHT:
-            new_head = (new_head[0] + 1, new_head[1])
-
-        snake_positions.append(new_head)
-
-        if len(snake_positions) > snake_length:
-            snake_positions.pop(0)
-
-        # Check for collision
-        if check_collision():
-            await game_message.edit(content="Game Over! Press the restart button to play again.")
-            game_active = False
-
-        # Update the game board
-        await update_game_board()
-
-async def update_game_board():
-    global game_message
-    board = generate_game_board()
-    await game_message.edit(content=board)
-
-def generate_game_board():
-    board = ''
-    for y in range(-5, 6):
-        for x in range(-10, 11):
-            if (x, y) == snake_positions[-1]:
-                board += '🟦'
-            elif (x, y) in snake_positions[:-1]:
-                board += '🟩'
-            else:
-                board += '⬛'
-        board += '\n'
-    return board
-
-def check_collision():
-    head = snake_positions[-1]
-    # Check the snake hits the wall
-    if abs(head[0]) > 10 or abs(head[1]) > 5:
-        return True
-    # check the snake hits the wall
-    if head in snake_positions[:-1]:
-        return True
-    return False
 
 allowed_user_ids = [761769388335431690, 984481582826020905, 964374501343236096, 707782594418442270, 1097879047213686875] # This is for users to access the echo command.
 
@@ -616,29 +541,6 @@ async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
     for _ in range(times):
         await user.send(message)
         await ctx.message.delete()
-
-@bot.command()
-async def play(ctx):
-    global game_message, game_active
-    if game_active:
-        await ctx.send("A game is still in progress, finish it before starting a new one smh.")
-        return
-
-    game_active = True
-    game_message = await ctx.send("Starting the game...")
-    
-    await start_game()
-
-@bot.command()
-async def snake_help(ctx):
-    await ctx.send("To play the game, use the `$play` command.")
-
-@bot.command()
-async def restart(ctx):
-    global game_active
-    if game_active:
-        game_active = False
-        await start_game()
 
 
 bot.run(os.environ['TOKEN'])
