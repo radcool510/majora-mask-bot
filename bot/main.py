@@ -12,7 +12,6 @@ from datetime import datetime
 import re
 import requests
 import json
-import akinator
 
 
 
@@ -541,33 +540,6 @@ async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
     for _ in range(times):
         await user.send(message)
         await ctx.message.delete()
-
-
-
-
-@bot.command(name="akinator")
-async def akinator(ctx):
-    # Create an Akinator game session
-    akinator_game = akinator.Akinator()
-    question = akinator_game.start_game()
-    await ctx.send(f"I'm ready to play Akinator! Think of a character, and I'll guess who it is.")
-    await ctx.send(question)
-
-@bot.command(name="guess_aki")
-async def guess_aki(ctx, *, answer: str):
-    if not answer:
-        await ctx.send("Please provide an answer to the Akinator question.")
-        return
-
-    # Retrieve the Akinator game session associated with the user
-    akinator_game = akinator.Akinator()
-    question = akinator_game.answer(answer)
-
-    if akinator_game.progression >= 80:
-        character = akinator_game.first_guess
-        await ctx.send(f"My guess is {character['name']}! Is that correct?")
-    else:
-        await ctx.send(question)
 
 
 
