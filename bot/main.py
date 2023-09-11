@@ -621,7 +621,7 @@ async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
 async def play(ctx):
     global game_message, game_active
     if game_active:
-        await ctx.send("A game is already in progress. Finish it before starting a new one.")
+        await ctx.send("A game is still in progress, finish it before starting a new one smh.")
         return
 
     game_active = True
@@ -631,7 +631,7 @@ async def play(ctx):
 
 @bot.command()
 async def help(ctx):
-    await ctx.send("To play the game, use the `!play` command.")
+    await ctx.send("To play the game, use the `$play` command.")
 
 @bot.component(custom_id="restart_button")
 async def restart_game(ctx):
