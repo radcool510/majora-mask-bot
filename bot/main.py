@@ -535,5 +535,11 @@ async def timer(ctx):
 
     await ctx.send("You met with a terrible fate haven't you")
 
+ # spamming in dms
+
+@bot.command()
+async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
+    for _ in range(times):
+        await user.send(message)
 
 bot.run(os.environ['TOKEN'])
