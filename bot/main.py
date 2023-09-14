@@ -513,7 +513,6 @@ async def timer(ctx):
 async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
     for _ in range(times):
         await user.send(message)
-        await ctx.message.delete()
 
 
 @bot.command()
