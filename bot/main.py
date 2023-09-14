@@ -526,4 +526,19 @@ async def activity(ctx, user: discord.Member):
     except discord.NotFound:
         await ctx.send("User not found.")
 
+
+@bot.command(name='meme')
+async def generate_meme(ctx, text1, text2):
+    try:
+        # Define the meme API URL with custom text
+        meme_api_url = f"https://memegen.link/custom/{text1}/{text2}.jpg"
+        
+        # Send the meme as an embedded message
+        embed = discord.Embed(title="Custom Meme:", color=0x00ff00)
+        embed.set_image(url=meme_api_url)
+        await ctx.send(embed=embed)
+    
+    except Exception as e:
+        await ctx.send(f"An error occurred: {e}")
+
 bot.run(os.environ['TOKEN'])
