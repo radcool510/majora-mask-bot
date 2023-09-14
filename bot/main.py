@@ -528,7 +528,7 @@ async def activity(ctx, user: discord.Member):
 
 
 @bot.command(name='meme')
-async def generate_meme(ctx, text1, text2):
+async def generate_meme(ctx, text1="Top Text", text2="Bottom Text"):
     try:
         # Define the meme API URL with custom text
         meme_api_url = f"https://memegen.link/custom/{text1}/{text2}.jpg"
