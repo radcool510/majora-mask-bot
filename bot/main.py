@@ -529,19 +529,27 @@ async def activity(ctx, user: discord.Member):
 
 
 @bot.command(name='meme')
-async def generate_meme(ctx, text1="Top Text", text2="Bottom Text"):
+async def fetch_meme(ctx):
     try:
-        # URL-encode the text parameters
-        text1 = urllib.parse.quote(text1)
-        text2 = urllib.parse.quote(text2)
-
-        # Define the meme API URL with custom text
-        meme_api_url = f"https://memegen.link/custom/{text1}/{text2}.jpg"
+        # switching from meme api to imgflip
+        response = requests.get('https://api.imgflip.com/get_memes')
+        data = response.json()
         
-        # Send the meme as an embedded message
-        embed = discord.Embed(title="Custom Meme:", color=0x00ff00)
-        embed.set_image(url=meme_api_url)
-        await ctx.send(embed=embed)
+        if data and 'data' in data:
+            memes = data['data']['memes']
+            
+            # Choose a random meme from the list
+            meme = random.choice(memes)
+            
+            # Getting the meme image url
+            meme_url = meme['url']
+            
+            # Send the meme as an embedded message
+            embed = discord.Embed(title="Here's a meme for you:", color=0x00ff00)
+            embed.set_image(url=meme_url)
+            await ctx.send(embed=embed)
+        else:
+            await ctx.send("Sorry, I couldn't fetch a meme at the moment.")
     
     except Exception as e:
         await ctx.send(f"An error occurred: {e}")
