@@ -12,6 +12,7 @@ from datetime import datetime
 import re
 import requests
 import json
+import urllib.parse
 
 
 
@@ -530,6 +531,10 @@ async def activity(ctx, user: discord.Member):
 @bot.command(name='meme')
 async def generate_meme(ctx, text1="Top Text", text2="Bottom Text"):
     try:
+        # URL-encode the text parameters
+        text1 = urllib.parse.quote(text1)
+        text2 = urllib.parse.quote(text2)
+
         # Define the meme API URL with custom text
         meme_api_url = f"https://memegen.link/custom/{text1}/{text2}.jpg"
         
