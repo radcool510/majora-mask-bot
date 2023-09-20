@@ -486,15 +486,6 @@ async def gnight(ctx):
         await ctx.reply("faild to kill")
 
 
-@bot.command()
-async def restart(ctx):
-    if ctx.author.id == 1097879047213686875:
-        await ctx.send("Restarting bot...")
-        os.system("main.py") 
-    else:
-        await ctx.send("You are not authorized to use this command.")
-
-
 
 @bot.command()
 async def timer(ctx):
@@ -554,14 +545,5 @@ async def fetch_meme(ctx):
     
     except Exception as e:
         await ctx.send(f"An error occurred: {e}")
-
-
-@bot.slash_command(
-    name="echo",
-    description="it echo the message for you",
-    guild_ids=[1143289074933833911]
-)
-async def echo(ctx, message: str):
-    await ctx.send(f"Only you can see this: {message}", ephemeral=True)
 
 bot.run(os.environ['TOKEN'])
