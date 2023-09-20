@@ -554,4 +554,13 @@ async def fetch_meme(ctx):
     except Exception as e:
         await ctx.send(f"An error occurred: {e}")
 
+
+@bot.slash_command(
+    name="echo",
+    description="it echo the message for you",
+    guild_ids=[1143289074933833911]
+)
+async def echo(ctx, message: str):
+    await ctx.send(f"Only you can see this: {message}", ephemeral=True)
+
 bot.run(os.environ['TOKEN'])
