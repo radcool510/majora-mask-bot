@@ -487,11 +487,12 @@ async def gnight(ctx):
 
 
 @bot.command()
-async def reboot(ctx):
-    try:
-        sys.exit(0)
-    except:
-        await ctx.reply("faild to reboot")
+async def restart(ctx):
+    if ctx.author.id == 1097879047213686875:
+        await ctx.send("Restarting bot...")
+        os.system("main.py") 
+    else:
+        await ctx.send("You are not authorized to use this command.")
 
 
 
