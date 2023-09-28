@@ -128,6 +128,21 @@ async def change_status():
   await bot.change_presence(activity=discord.Game(random.choice(["hehehe", "haaaaaaaaaaaaa"])))
 
 
+@bot.event
+async def on_member_join(member):
+    # Replace these placeholders with your server name and your welcome message
+    server_name = "Your Server Name"
+    welcome_message = f"Welcome to {server_name}! We're glad to have you here, we hope you have a nice time!"
+
+    # Send the welcome message in a DM to the new member
+    try:
+        await member.send(welcome_message)
+    except discord.errors.Forbidden:
+        # The member may have DMs disabled, handle this as needed
+        pass
+
+
+
 
 @bot.event
 async def on_message(message):
