@@ -494,14 +494,6 @@ async def calculate(ctx, *, expression: str):
     except Exception as e:
         await ctx.send("Invalid expression!")
 
-@bot.command()
-async def gnight(ctx):
-    try:
-        await ctx.send("Bot successfully updated!")
-        sys.exit(0)
-    except:
-        await ctx.reply("failed to stop the bot")
-
 
 
 @bot.command()
