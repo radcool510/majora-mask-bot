@@ -445,6 +445,17 @@ async def cat(ctx):
       await ctx.send("Sorry,I couldn't fetch a cat image atthemoment.") 
 
 @bot.command()
+async def dog(ctx):
+    response = requests.get('https://api.thedogapi.com/v1/images/search')
+    data = response.json()
+
+    if data and 'url' in data[0]:
+        dog_url = data[0]['url']
+        await ctx.send(dog_url)
+    else:
+        await ctx.send("Sorry, I couldn't fetch a dog image at the moment.")
+
+@bot.command()
 async def dm(ctx, user: discord.User):
     # Check if the command is used by an allowed user
     if ctx.author.id in allowed_user_ids:
