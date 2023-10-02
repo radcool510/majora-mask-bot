@@ -497,7 +497,7 @@ async def calculate(ctx, *, expression: str):
 @bot.command()
 async def gnight(ctx):
     try:
-        os.remove("condition")
+        await ctx.send("Bot successfully updated!")
         sys.exit(0)
     except:
         await ctx.reply("failed to stop the bot")
