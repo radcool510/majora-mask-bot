@@ -498,9 +498,9 @@ async def calculate(ctx, *, expression: str):
 async def gnight(ctx):
     try:
         os.remove("condition")
-        sys.exit(0)
+        await bot.close()
     except:
-        await ctx.reply("faild to kill")
+        await ctx.reply("failed to stop the bot")
 
 
 
@@ -562,5 +562,13 @@ async def fetch_meme(ctx):
     
     except Exception as e:
         await ctx.send(f"An error occurred: {e}")
+
+@bot.command()
+async def update(ctx):
+    try:
+        await ctx.send("Bot successfully updated!")
+        sys.exit(0)
+    except Exception as e:
+        await ctx.send(f"Failed to update the bot: {str(e)}")
 
 bot.run(os.environ['TOKEN'])
