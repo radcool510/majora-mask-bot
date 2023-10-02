@@ -498,7 +498,7 @@ async def calculate(ctx, *, expression: str):
 async def gnight(ctx):
     try:
         os.remove("condition")
-        await bot.close()
+        sys.exit(0)
     except:
         await ctx.reply("failed to stop the bot")
 
