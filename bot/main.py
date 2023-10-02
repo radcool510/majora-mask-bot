@@ -158,7 +158,7 @@ async def on_message(message):
         await message.channel.send("https://tenor.com/view/kiby-funkdela-funkdela-catalog-licorice-cookie-gif-26247566", reference=message)
 
     if message.content == "mad":
-        await message.channel.send("https://cdn.discordapp.com/attachments/1119245853203386378/1131887991091101766/C750CA33-927B-441F-B702-F0F2F4334568.gif", reference=message)
+        await message.channel.send("hhttps://discord.com/channels/@me/1122408339570180147/1158486608182513744", reference=message)
     else:
         await bot.process_commands(message)
     if message.content == "lol":
