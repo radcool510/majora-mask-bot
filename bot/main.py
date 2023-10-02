@@ -455,6 +455,18 @@ async def dog(ctx):
     else:
         await ctx.send("Sorry, I couldn't fetch a dog image at the moment.")
 
+
+@bot.command()
+async def waifu(ctx):
+    response = requests.get('https://api.waifu.pics/sfw/waifu/')
+    data = response.json()
+
+    if data and 'url' in data:
+        waifu_url = data['url']
+        await ctx.send(waifu_url)
+    else:
+        await ctx.send("Sorry, I couldn't fetch a waifu image at the moment.")
+
 @bot.command()
 async def dm(ctx, user: discord.User):
     # Check if the command is used by an allowed user
