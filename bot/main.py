@@ -146,6 +146,7 @@ async def on_member_join(member):
 
 @bot.event
 async def on_message(message):
+    content = message.content.lower()
 
     if message.content == "uh oh":
         await message.channel.send("https://cdn.discordapp.com/attachments/1122408339570180147/1137485909453971506/mc.jpg", reference=message)
