@@ -579,6 +579,14 @@ async def fetch_meme(ctx):
         await ctx.send(f"An error occurred: {e}")
 
 @bot.command()
+async def gnight(ctx):
+    try:
+        await ctx.send("Bot successfully updated!")
+        sys.exit(0)
+    except:
+        await ctx.reply("failed to stop the bot")
+
+@bot.command()
 async def update(ctx):
     try:
         await ctx.send("Bot successfully updated!")
