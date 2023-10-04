@@ -458,7 +458,7 @@ async def dog(ctx):
 
 @bot.command()
 async def waifu(ctx):
-    response = requests.get('https://api.waifu.pics/sfw/waifu/')
+    response = requests.get('https://waifu-generator.vercel.app/api/waifu')
     data = response.json()
 
     if data and 'url' in data:
