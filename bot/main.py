@@ -455,10 +455,9 @@ async def dog(ctx):
     else:
         await ctx.send("Sorry, I couldn't fetch a dog image at the moment.")
 
-
 @bot.command()
 async def waifu(ctx):
-    response = requests.get('https://waifu-generator.vercel.app/api/waifu')
+    response = requests.get('https://api.waifu.pics/sfw/waifu/')
     data = response.json()
 
     if data and 'url' in data:
@@ -577,14 +576,6 @@ async def fetch_meme(ctx):
     
     except Exception as e:
         await ctx.send(f"An error occurred: {e}")
-
-@bot.command()
-async def gnight(ctx):
-    try:
-        await ctx.send("Bot successfully updated!")
-        sys.exit(0)
-    except:
-        await ctx.reply("failed to stop the bot")
 
 @bot.command()
 async def update(ctx):
