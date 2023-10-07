@@ -615,7 +615,7 @@ def perform_web_search(query):
         return []
 
 @bot.command()
-async def search_image(ctx, *, query):
+async def findimage(ctx, *, query):
     image_results = perform_image_search(query)
 
     if image_results:
