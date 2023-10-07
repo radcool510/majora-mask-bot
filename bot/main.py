@@ -597,11 +597,25 @@ async def search(ctx, *, query):
         await ctx.send("No results found.")
 
 def perform_web_search(query):
-    try:
-        search_url = f"https://www.google.com/search?q={query}"
-        print("Search URL:", search_url)  # Print the URL for debugging
-        response = requests.get(search_url)
+   try:
+        # Encode the query for the URL
+        encoded_query = urllib.parse.quote(query)
+
+        # Construct the search URL
+        search_url = f"https://www.google.com/search?q={encoded_query}"
+        
+        # Set user-agent to avoid blocking
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+        }
+
+        # Send a GET request to the search URL
+        response = requests.get(search_url, headers=headers)
+
+        # Parse the HTML response
         soup = BeautifulSoup(response.text, "html.parser")
+        
+        # Find and extract search result links
         search_results = []
 
         for link in soup.find_all("a"):
@@ -610,13 +624,8 @@ def perform_web_search(query):
                 url = href.split("/url?q=")[1].split("&")[0]
                 search_results.append(url)
 
-        if search_results:
-            print("Search Results:", search_results)  
-            return search_results[:5]  
-        else:
-            print("No search results found.")  
-            return []
-    except Exception as e:
+        return search_results[:5]  # Limit to the first 5 results
+   except Exception as e:
         print(f"Error performing web search: {e}")
         return []
 
