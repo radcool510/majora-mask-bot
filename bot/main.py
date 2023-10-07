@@ -590,7 +590,7 @@ async def search(ctx, *, query):
     search_results = perform_web_search(query)
 
     if search_results:
-        await ctx.send("here are the webs:")
+        await ctx.send("here are the webs friend:")
         for result in search_results:
             await ctx.send(result)
     else:
@@ -599,6 +599,7 @@ async def search(ctx, *, query):
 def perform_web_search(query):
     try:
         search_url = f"https://www.google.com/search?q={query}"
+        print("Search URL:", search_url)  # Print the URL for debugging
         response = requests.get(search_url)
         soup = BeautifulSoup(response.text, "html.parser")
         search_results = []
@@ -609,7 +610,12 @@ def perform_web_search(query):
                 url = href.split("/url?q=")[1].split("&")[0]
                 search_results.append(url)
 
-        return search_results[:5]  # Limit to the first 5 results
+        if search_results:
+            print("Search Results:", search_results)  
+            return search_results[:5]  
+        else:
+            print("No search results found.")  
+            return []
     except Exception as e:
         print(f"Error performing web search: {e}")
         return []
