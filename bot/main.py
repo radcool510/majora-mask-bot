@@ -13,7 +13,7 @@ import re
 import requests
 import json
 import urllib.parse
-
+from bs4 import BeautifulSoup
 
 
 
@@ -584,5 +584,71 @@ async def update(ctx):
         sys.exit(0)
     except Exception as e:
         await ctx.send(f"Failed to update the bot: {str(e)}")
+
+@bot.command()
+async def search(ctx, *, query):
+    search_results = perform_web_search(query)
+
+    if search_results:
+        await ctx.send("Here are the search results:")
+        for result in search_results:
+            await ctx.send(result)
+    else:
+        await ctx.send("No results found.")
+
+def perform_web_search(query):
+    try:
+        search_url = f"https://www.google.com/search?q={query}"
+        response = requests.get(search_url)
+        soup = BeautifulSoup(response.text, "html.parser")
+        search_results = []
+
+        for link in soup.find_all("a"):
+            href = link.get("href")
+            if href.startswith("/url?q="):
+                url = href.split("/url?q=")[1].split("&")[0]
+                search_results.append(url)
+
+        return search_results[:5]  # Limit to the first 5 results
+    except Exception as e:
+        print(f"Error performing web search: {e}")
+        return []
+
+@bot.command()
+async def search_image(ctx, *, query):
+    image_results = perform_image_search(query)
+
+    if image_results:
+        await ctx.send("Here are the image my friend:")
+        for result in image_results:
+            await ctx.send(result)
+    else:
+        await ctx.send("No image search results found.")
+
+def perform_web_search(query):
+    try:
+        search_results = list(search(query, num=5, stop=5, pause=2))
+        return search_results
+    except Exception as e:
+        print(f"Error performing web search: {e}")
+        return []
+
+def perform_image_search(query):
+    try:
+        # Construct a search URL for image results
+        search_url = f"https://www.google.com/search?q={urllib.parse.quote(query)}&tbm=isch"
+        response = requests.get(search_url)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        image_results = []
+        for img in soup.find_all("img"):
+            img_url = img.get("src")
+            if img_url and img_url.startswith("http"):
+                image_results.append(img_url)
+
+        return image_results[:1]  # Limit to the first 5 results
+    except Exception as e:
+        print(f"Error performing image search: {e}")
+        return []
 
 bot.run(os.environ['TOKEN'])
