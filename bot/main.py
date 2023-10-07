@@ -590,7 +590,7 @@ async def search(ctx, *, query):
     search_results = perform_web_search(query)
 
     if search_results:
-        await ctx.send("Here are the search results:")
+        await ctx.send("here are the webs:")
         for result in search_results:
             await ctx.send(result)
     else:
