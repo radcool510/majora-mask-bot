@@ -19,6 +19,82 @@ from bs4 import BeautifulSoup
 
 bot = commands.Bot("$", intents=discord.Intents.all())
 
+snake_board_size = 10
+snake_initial_length = 1
+snake_directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+snake_game_in_progress = False
+snake_head = (snake_board_size // 2, snake_board_size // 2)
+snake_body = [(snake_head[0] - i, snake_head[1]) for i in range(snake_initial_length)]
+food_position = None
+game_message = None
+
+
+current_direction = (0, 1)
+
+async def start_game(ctx):
+    global snake_game_in_progress, snake_head, snake_body, food_position, game_message
+    snake_game_in_progress = True
+    snake_head = (snake_board_size // 2, snake_board_size // 2)
+    snake_body = [(snake_head[0] - i, snake_head[1]) for i in range(snake_initial_length)]
+    food_position = generate_food_position()
+    game_message = await ctx.send("Snake game started! Use reactions to change direction.")
+    await game_message.add_reaction('⬆️')
+    await game_message.add_reaction('⬇️')
+    await game_message.add_reaction('➡️')
+    await game_message.add_reaction('⬅️')
+    await display_board()
+    await move_snake(ctx)
+
+def generate_food_position():
+    return (random.randint(0, snake_board_size - 1), random.randint(0, snake_board_size - 1))
+
+async def display_board():
+    board = [['⬛' for _ in range(snake_board_size)] for _ in range(snake_board_size)]
+    
+    for x, y in snake_body:
+        board[y][x] = '🟢'
+    
+    if food_position:
+        x, y = food_position
+        board[y][x] = '🍎'
+    
+    board_str = '\n'.join([''.join(row) for row in board])
+    await game_message.edit(content=f"```\n{board_str}\n```")
+
+async def move_snake(ctx):
+    global snake_game_in_progress, snake_head, snake_body, food_position, current_direction
+    
+    while snake_game_in_progress:
+        new_head = (snake_head[0] + current_direction[0], snake_head[1] + current_direction[1])
+        
+        if (
+            new_head[0] < 0 or
+            new_head[0] >= snake_board_size or
+            new_head[1] < 0 or
+            new_head[1] >= snake_board_size
+        ):
+            await ctx.send("You hit the wall! Game over.")
+            snake_game_in_progress = False
+            break
+
+
+        if new_head in snake_body[1:]:
+            await ctx.send("You hit your own tail! Game over.")
+            snake_game_in_progress = False
+            break
+
+        if new_head == food_position:
+            snake_body.insert(0, new_head)
+            food_position = generate_food_position()
+        else:
+            snake_body.insert(0, new_head)
+            snake_body.pop()
+        
+        snake_head = new_head
+        await display_board()
+        await asyncio.sleep(1) 
+
+
 
 allowed_user_ids = [761769388335431690, 984481582826020905, 964374501343236096, 707782594418442270, 1097879047213686875] # This is for users to access the echo command.
 
@@ -163,6 +239,36 @@ async def on_message(message):
         await bot.process_commands(message)
     if message.content == "lol":
         await message.channel.send("you got a whole squad laughing", reference=message)
+
+@bot.event
+async def on_reaction_add(reaction, user):
+    global current_direction
+    
+    if user.bot:
+        return
+
+    if reaction.message.id == game_message.id:
+        direction_mapping = {
+            '⬆️': (0, -1),
+            '⬇️': (0, 1),
+            '➡️': (1, 0),
+            '⬅️': (-1, 0)
+        }
+
+        direction = direction_mapping.get(reaction.emoji)
+        
+        if direction:
+            # Update the current direction based on the reaction
+            current_direction = direction
+            await game_message.remove_reaction(reaction.emoji, user)
+
+@bot.command(name='snake')
+async def snake_command(ctx):
+    global snake_game_in_progress
+    if not snake_game_in_progress:
+        await start_game(ctx)
+    else:
+        await ctx.send("A game is already in progress!")
 
 @bot.command(name='wordle')
 async def wordle(ctx):
@@ -598,7 +704,7 @@ async def findimage(ctx, *, query):
 
 def perform_web_search(query):
     try:
-        search_results = list(search(query, num=5, stop=5, pause=2))
+        search_results = list(re.search(query, num=5, stop=5, pause=2))
         return search_results
     except Exception as e:
         print(f"Error performing web search: {e}")
