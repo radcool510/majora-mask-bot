@@ -19,9 +19,6 @@ from bs4 import BeautifulSoup
 
 bot = commands.Bot("$", intents=discord.Intents.all())
 
-
-word_counts = {}
-
 snake_board_size = 10
 snake_initial_length = 1
 snake_directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
