@@ -286,20 +286,18 @@ async def snake_command(ctx):
         await ctx.send("A game is already in progress!")
 
 @bot.command(name='wordcount')
-async def word_count(ctx, target_word='nigga, nigger'):
-    # Get the user who used the command
+async def word_count(ctx, target_word='nigga'):
     user = ctx.author.name
 
-    # Get the list of servers the bot is in
+
     servers = bot.guilds
 
-    # Display word count for each server
     for server in servers:
-        # Count occurrences of the target word in messages from the user in the current server
         user_word_count_server = sum(message.content.lower().count(target_word.lower()) for message in server.messages if message.author.name == user)
 
-        # Display the result in the current server's channel
+
         await ctx.send(f'{server.name} "{target_word}" count for {user} = {user_word_count_server}.')
+
 
 
 @bot.command(name='wordle')
