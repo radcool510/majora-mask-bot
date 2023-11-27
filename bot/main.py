@@ -240,18 +240,6 @@ async def on_message(message):
     if message.content == "lol":
         await message.channel.send("you got a whole squad laughing", reference=message)
 
-
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
-    server_id = message.guild.id
-    word_count = word_counts.get(server_id, 0)
-    word_counts[server_id] = word_count + message.content.lower().count('nigga, nigger')
-
-
-
 @bot.event
 async def on_reaction_add(reaction, user):
     global current_direction
@@ -281,21 +269,6 @@ async def snake_command(ctx):
         await start_game(ctx)
     else:
         await ctx.send("A game is already in progress!")
-
-@bot.command(name='wordcount')
-async def word_count(ctx, target_word='nigga'):
-    user = ctx.author.name
-
-
-    servers = bot.guilds
-
-    for server in servers:
-        user_word_count_server = sum(message.content.lower().count(target_word.lower()) for message in server.messages if message.author.name == user)
-
-
-        await ctx.send(f'{server.name} "{target_word}" count for {user} = {user_word_count_server}.')
-
-
 
 @bot.command(name='wordle')
 async def wordle(ctx):
