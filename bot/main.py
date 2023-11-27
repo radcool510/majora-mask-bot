@@ -19,6 +19,9 @@ from bs4 import BeautifulSoup
 
 bot = commands.Bot("$", intents=discord.Intents.all())
 
+
+word_counts = {}
+
 snake_board_size = 10
 snake_initial_length = 1
 snake_directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -240,6 +243,18 @@ async def on_message(message):
     if message.content == "lol":
         await message.channel.send("you got a whole squad laughing", reference=message)
 
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    server_id = message.guild.id
+    word_count = word_counts.get(server_id, 0)
+    word_counts[server_id] = word_count + message.content.lower().count('nigga, nigger')
+
+
+
 @bot.event
 async def on_reaction_add(reaction, user):
     global current_direction
@@ -269,6 +284,15 @@ async def snake_command(ctx):
         await start_game(ctx)
     else:
         await ctx.send("A game is already in progress!")
+
+@bot.command()
+async def ncount(ctx):
+    nigga_count_str = "Server name | Count\n--------------------"
+    for server_id, count in word_counts.items():
+        server = bot.get_guild(server_id)
+        nigga_count_str += f"\n{server.name} | {count}"
+
+    await ctx.send(f"```{nigga_count_str}```")
 
 @bot.command(name='wordle')
 async def wordle(ctx):
