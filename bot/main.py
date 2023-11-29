@@ -814,5 +814,17 @@ async def botrole(ctx):
 
     await ctx.send(f'Successfully created the bot role: {bot_role.name}')
 
+@bot.command()
+async def checkperms(ctx):
+    # Get the bot's member object in the server
+    bot_member = ctx.guild.get_member(bot.user.id)
+
+    # Check permissions
+    if bot_member:
+        perms = bot_member.guild_permissions
+        await ctx.send(f"Bot's permissions in this server: {perms}")
+    else:
+        await ctx.send("Bot is not a member of this server.")
+
 
 bot.run(os.environ['TOKEN'])
