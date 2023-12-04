@@ -98,15 +98,12 @@ async def move_snake(ctx):
 
 allowed_user_ids = [761769388335431690, 984481582826020905, 964374501343236096, 707782594418442270, 1097879047213686875] # This is for users to access the echo command.
 
-word_list = ["king", "minecraft", "wumbee", "orange", "imagine", "ban", "alternate", "hakurei", "ng", "king of fighters", "nintendo", "fight", "python", "aleph", "tekken", "cod", "combat master", "cemu", "poop", "jabascript", "kong", "snek", "snek", "bro", "net", "oboro", "discord", "keyboard", "why", "sega", "rat", "fuck", "mark", "what", "bite", "dog", "slayer", "dragon", "gay", "shit", "ceaser", "me", "stress", "bird", "corn", "snake", "cat"]
-attempts = 6
-current_word = ""
-current_progress = []
+
 
 
 switch_status = False
 
-
+words = ["king", "minecraft", "wumbee", "orange", "imagine", "ban", "alternate", "hakurei", "ng", "king of fighters", "nintendo", "fight", "python", "aleph", "tekken", "cod", "combat master", "cemu", "poop", "jabascript", "kong", "snek", "snek", "bro", "net", "oboro", "discord", "keyboard", "why", "sega", "rat", "fuck", "mark", "what", "bite", "dog", "slayer", "dragon", "gay", "shit", "ceaser", "me", "stress", "bird", "corn", "snake", "cat"]
 
 HANGMAN_STAGES = [
     "```\n"
