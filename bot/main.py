@@ -106,8 +106,6 @@ current_progress = []
 
 switch_status = False
 
-words = ["king", "minecraft", "wumbee", "orange", "imagine", "ban", "alternate", "hakurei", "ng", "king of fighters", "nintendo", "fight", "python", "aleph", "tekken", "cod", "combat master", "cemu", "poop", "jabascript", "kong", "snek", "snek", "bro", "net", "oboro", "discord", "keyboard", "why", "sega", "rat", "fuck", "mark", "what", "bite", "dog", "slayer", "dragon", "gay", "shit", "ceaser", "me", "stress", "bird", "corn", "snake", "cat"]
-
 
 
 HANGMAN_STAGES = [
@@ -244,16 +242,6 @@ async def on_message(message):
         await message.channel.send("you got a whole squad laughing", reference=message)
 
 
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
-    server_id = message.guild.id
-    word_count = word_counts.get(server_id, 0)
-    word_counts[server_id] = word_count + message.content.lower().count('nigga, nigger')
-
-
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -284,47 +272,6 @@ async def snake_command(ctx):
         await start_game(ctx)
     else:
         await ctx.send("A game is already in progress!")
-
-@bot.command(name='wordle')
-async def wordle(ctx):
-    global current_word, current_progress
-    current_word = random.choice(word_list)
-    current_progress = ['▫️' for _ in current_word]
-    
-    message = await ctx.send(f"Wordle has started! You have {attempts} attempts. Current progress: {' '.join(current_progress)}")
-    await message.add_reaction('🟩')  # Green color square emoji for correct letter
-    await message.add_reaction('🟨')  # Yellow color square emoji for misplaced letter
-
-@bot.command(name='word')
-async def word(ctx, *, guessed_word: str):
-    global attempts, current_word, current_progress
-    
-    if len(guessed_word) != len(current_word):
-        await ctx.send("Your guessed word has the wrong length. Please enter a word with the correct length.")
-        return
-    
-    if guessed_word == current_word:
-        await ctx.send(f"Congratulations! You've guessed the word: {current_word}")
-        attempts = 6
-        current_word = ""
-        current_progress = []
-        return
-    
-    if attempts > 1:
-        attempts -= 1
-        feedback_message = await ctx.send(f"Incorrect guess. You have {attempts} attempts left. Current progress: {' '.join(current_progress)}")
-        
-        for i in range(len(current_word)):
-            if guessed_word[i] == current_word[i]:
-                current_progress[i] = '🟩'  # Green color square emoji for correct letter
-            elif guessed_word[i] in current_word:
-                current_progress[i] = '🟨'  # Yellow color square emoji for misplaced letter
-        await feedback_message.edit(content=f"Incorrect guess. You have {attempts} attempts left. Current progress: {' '.join(current_progress)}")
-    else:
-        await ctx.send(f"You've run out of attempts! The word was {current_word}.")
-        attempts = 6
-        current_word = ""
-        current_progress = []
 
 @bot.command()
 async def kick(ctx, member: discord.Member, *, reason=None):
