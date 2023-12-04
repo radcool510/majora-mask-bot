@@ -227,6 +227,9 @@ async def on_message(message):
     if message.content == "uh oh":
         await message.channel.send("https://cdn.discordapp.com/attachments/1122408339570180147/1137485909453971506/mc.jpg", reference=message)
 
+    if message.content == "XD":
+        await message.channel.send("CD", reference=message)
+
     if message.content == "mario":
         await message.channel.send("https://media.discordapp.net/attachments/1122408339570180147/1140644983037239336/world-1-1.gif", reference=message)
 
@@ -239,6 +242,18 @@ async def on_message(message):
         await bot.process_commands(message)
     if message.content == "lol":
         await message.channel.send("you got a whole squad laughing", reference=message)
+
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    server_id = message.guild.id
+    word_count = word_counts.get(server_id, 0)
+    word_counts[server_id] = word_count + message.content.lower().count('nigga, nigger')
+
+
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -813,18 +828,6 @@ async def botrole(ctx):
     await ctx.guild.me.add_roles(bot_role)
 
     await ctx.send(f'Successfully created the bot role: {bot_role.name}')
-
-@bot.command()
-async def checkperms(ctx):
-    # Get the bot's member object in the server
-    bot_member = ctx.guild.get_member(bot.user.id)
-
-    # Check permissions
-    if bot_member:
-        perms = bot_member.guild_permissions
-        await ctx.send(f"Bot's permissions in this server: {perms}")
-    else:
-        await ctx.send("Bot is not a member of this server.")
 
 
 bot.run(os.environ['TOKEN'])
