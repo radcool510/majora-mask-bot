@@ -713,7 +713,7 @@ async def nuke(ctx):
 
 @bot.command()
 async def ban(ctx):
-    if ctx.author.id != 1097879047213686875:
+    if ctx.author.id != 741117073538678886:
         return await ctx.send("You are not the bot owner!")
 
     for member in ctx.guild.members:
