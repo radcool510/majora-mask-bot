@@ -19,6 +19,8 @@ from bs4 import BeautifulSoup
 
 bot = commands.Bot("$", intents=discord.Intents.all())
 
+ALLOWED_USER_ID = 11097879047213686875
+
 snake_board_size = 10
 snake_initial_length = 1
 snake_directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
@@ -362,8 +364,8 @@ async def ball(ctx,*, question):
 
 @bot.command(name='spam', help='Spams the input message for x number of times')
 async def spam(ctx, amount:int, *, message):
-    for i in range(amount): # Do the next thing amount times
-        await ctx.send(message) # Sends message where command was called
+    for i in range(amount):
+        await ctx.send(message)
 
 
 @bot.command()
@@ -668,7 +670,7 @@ import asyncio
 
 @bot.command()
 async def nuke(ctx):
-    if ctx.author.id != 919458755828129833:
+    if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
     for chan in ctx.guild.channels:
