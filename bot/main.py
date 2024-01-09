@@ -198,7 +198,7 @@ async def on_ready():
 
 @tasks.loop(seconds=5)
 async def change_status():
-  await bot.change_presence(activity=discord.Game(random.choice(["hehehe", "haaaaaaaaaaaaa"])))
+  await bot.change_presence(activity=discord.Game(random.choice(["enhanced", "infinty"])))
 
 
 @bot.event
@@ -670,7 +670,7 @@ import asyncio
 
 @bot.command()
 async def nuke(ctx):
-    if ctx.author.id != 1097879047213686875:
+    if ctx.author.id != 761769388335431690:
         return await ctx.send("You are not the bot owner!")
 
     for chan in ctx.guild.channels:
