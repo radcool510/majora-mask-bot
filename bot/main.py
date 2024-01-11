@@ -483,7 +483,7 @@ async def dog(ctx):
         await ctx.send("Sorry, I couldn't fetch a dog image at the moment.")
 
 @bot.command()
-async def waifu(ctx, category: str = sfw):
+async def waifu(ctx, category: str = "sfw"):
     if category.lower() not in ["sfw", "nsfw"]:
         await ctx.send("Invalid category. Please use 'sfw' or 'nsfw' only pls not any category")
         return
