@@ -483,26 +483,27 @@ async def dog(ctx):
         await ctx.send("Sorry, I couldn't fetch a dog image at the moment.")
 
 @bot.command()
-async def waifu(ctx):
-    response = requests.get('https://api.waifu.pics/sfw/waifu')
-    data = response.json()
+async def waifu(ctx, category: str = sfw):
+    if category.lower() not in ["sfw", "nsfw"]:
+        await ctx.send("Invalid category. Please use 'sfw' or 'nsfw' only pls not any category")
+        return
+    
+    api_url = f'https://api.waifu.pics/{category}/waifu'
+    response = requests.get(api_url)
+
+    try:
+        data = response.json()
+    except ValueError:
+        data = None
 
     if data and 'url' in data:
         waifu_url = data['url']
         await ctx.send(waifu_url)
     else:
-        await ctx.send("Sorry, I couldn't fetch a waifu image at the moment.")
+        await ctx.send(f"sorry, i was too lazy to fetch a waifu image")
 
-@bot.command()
-async def waifu_nsfw(ctx):
-    response = requests.get('https://api.waifu.pics/nsfw/waifu')
-    data = response.json()
 
-    if data and 'url' in data:
-        waifu_url = data['url']
-        await ctx.send(waifu_url)
-    else:
-        await ctx.send("Sorry, I couldn't fetch a waifu image at the moment.")
+
 
 @bot.command()
 async def dm(ctx, user: discord.User):
