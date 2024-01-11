@@ -306,35 +306,6 @@ async def ascii(ctx):
     """
     await ctx.send(f"Here amongsus for you:\n```\n{art}\n```")
 
-
-@bot.command()
-async def number(ctx):
-    await ctx.send("Welcome to the guessing game! I'm thinking of a number between 1 and 100. Start guessing!")
-
-    # Generate a random number between 1 and 100
-    secret_number = random.randint(1, 100)
-    
-    while True:
-        def check(message):
-            return message.author == ctx.author and message.content.isdigit()
-
-        try:
-            user_guess = await bot.wait_for('message', check=check, timeout=30)
-            guess = int(user_guess.content)
-            
-            if guess < secret_number:
-                await ctx.send("Too low! Guess higher.")
-            elif guess > secret_number:
-                await ctx.send("Too high! Guess lower.")
-            else:
-                await ctx.send(f"Congratulations! You guessed the correct number: {secret_number}")
-                break  # Exit the loop when the user guesses correctly
-
-        except asyncio.TimeoutError:
-            await ctx.send("Time's up! The secret number was: {secret_number}")
-            break
-
-
 @bot.command(aliases=['8ball'])
 async def ball(ctx,*, question):
   responses = [
@@ -366,17 +337,6 @@ async def ball(ctx,*, question):
 async def spam(ctx, amount:int, *, message):
     for i in range(amount):
         await ctx.send(message)
-
-
-@bot.command()
-async def react(ctx):
-    def check(reaction, user):  # Our check for the reaction
-        return user == ctx.message.author  # We check that only the authors reaction counts
-
-    await ctx.send("React to this for a test")  # Message to react to
-
-    reaction = await bot.wait_for("reaction_add", check=check)  # Wait for a reaction
-    await ctx.send(f"You reacted with: {reaction[0]}")  # With [0] we only display the emoji
 
 
 @bot.command()
@@ -534,6 +494,17 @@ async def waifu(ctx):
         await ctx.send("Sorry, I couldn't fetch a waifu image at the moment.")
 
 @bot.command()
+async def waifu_nsfw(ctx):
+    response = requests.get('https://api.waifu.pics/nsfw/waifu')
+    data = response.json()
+
+    if data and 'url' in data:
+        waifu_url = data['url']
+        await ctx.send(waifu_url)
+    else:
+        await ctx.send("Sorry, I couldn't fetch a waifu image at the moment.")
+
+@bot.command()
 async def dm(ctx, user: discord.User):
     # Check if the command is used by an allowed user
     if ctx.author.id in allowed_user_ids:
@@ -582,21 +553,6 @@ async def calculate(ctx, *, expression: str):
         await ctx.send(f"The result of {expression} is {result}")
     except Exception as e:
         await ctx.send("Invalid expression!")
-
-
-
-@bot.command()
-async def timer(ctx):
-    await ctx.send("Setting a timer for 3 days")
-
-    majoras_mask_gif_url = "https://tenor.com/view/majoras-mask-zelda-moon-crash-gif-20298361"
-    await ctx.send(majoras_mask_gif_url)
-
-    duration_seconds = 3 * 24 * 60 * 60
-    
-    await asyncio.sleep(duration_seconds)
-
-    await ctx.send("You met with a terrible fate haven't you")
 
  # spamming in dms
 
