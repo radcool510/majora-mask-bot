@@ -559,6 +559,7 @@ async def calculate(ctx, *, expression: str):
 
 @bot.command()
 async def dm_spam(ctx, user: discord.User, times: int, *, message: str):
+    times = min(times, 500)
     for _ in range(times):
         await user.send(message)
 
