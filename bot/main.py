@@ -231,7 +231,7 @@ async def on_message(message):
         await message.channel.send("https://media.discordapp.net/attachments/1122408339570180147/1140644983037239336/world-1-1.gif", reference=message)
 
     if message.content == "<@1097879047213686875>":
-        await message.channel.send(":congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1::congaparrot~1:", reference=message)
+        await message.channel.send(":congaparrot:1142004332502450268", reference=message)
 
     if message.content == "mad":
         await message.channel.send("hhttps://discord.com/channels/@me/1122408339570180147/1158486608182513744", reference=message)
