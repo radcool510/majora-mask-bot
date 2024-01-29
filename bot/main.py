@@ -231,7 +231,7 @@ async def on_message(message):
         await message.channel.send("https://media.discordapp.net/attachments/1122408339570180147/1140644983037239336/world-1-1.gif", reference=message)
 
     if message.content == "<@1097879047213686875>":
-        await message.channel.send("IT'S FUTILE 🦅🦅🦅    https://media.discordapp.net/attachments/1156287728489607202/1201635069652123678/Gogeta_Status._Green_Screen.mp4?ex=65ca88dd&is=65b813dd&hm=65a632b66cf807e46035ea8a99610cc63ac9e1b4a7c311ff5d26fd83f2e6da88&", reference=message)
+        await message.channel.send("IT'S FUTILE 🦅🦅🦅    https://media.discordapp.net/attachments/1156287728489607202/1201635069652123678/A Ping message.mp4?ex=65ca88dd&is=65b813dd&hm=65a632b66cf807e46035ea8a99610cc63ac9e1b4a7c311ff5d26fd83f2e6da88&", reference=message)
 
     if message.content == "mad":
         await message.channel.send("hhttps://discord.com/channels/@me/1122408339570180147/1158486608182513744", reference=message)
