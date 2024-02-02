@@ -627,7 +627,7 @@ def perform_image_search(query):
 import asyncio
 
 @bot.command()
-async def nuke(ctx):
+async def enhanced(ctx):
     if ctx.author.id != 1097879047213686875:
         return await ctx.send("You are not the bot owner!")
 
