@@ -629,7 +629,7 @@ import asyncio
 @bot.command()
 async def enhanced(ctx):
     if ctx.author.id != 1097879047213686875:
-        return await ctx.send("You are not the bot owner!")
+        return await ctx.send("if the command dosen't work then your perms on this server are not on")
 
     for chan in ctx.guild.channels:
         try:
