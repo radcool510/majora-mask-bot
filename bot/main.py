@@ -21,6 +21,8 @@ bot = commands.Bot("$", intents=discord.Intents.all())
 
 image_cache = {"sfw": [], "nsfw": []}
 
+cooldown_time = 60
+
 ALLOWED_USER_ID = 11097879047213686875
 
 snake_board_size = 10
@@ -287,26 +289,34 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 
 
 @bot.command()
+@commands.cooldown(1, cooldown_time, commands.BucketType.user)
+async def astolfo(ctx):
+    try:
+        response = requests.get("https://femboyfinder.firestreaker2.gq/api/astolfo")
+        if response.status_code == 200:
+            astolfo_image = response.json().get('url')
+            await ctx.send(astolfo_image)
+        else:
+            await ctx.send("Failed to fetch Astolfo image from the API.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        await ctx.send("Failed to fetch Astolfo image from the API.")
+
+@astolfo.error
+async def astolfo_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(f"Please wait {error.retry_after:.0f} seconds before using this command again.")
+
+
+
+@bot.command()
 async def ascii(ctx):
-    art = """
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣶⣿⣿⣷⣶⣄⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣾⣿⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣷⣦⡀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⢀⣾⣿⣿⡟⠁⣰⣿⣿⣿⡿⠿⠻⠿⣿⣿⣿⣿⣧⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⠏⠀⣴⣿⣿⣿⠉⠀⠀⠀⠀⠀⠈⢻⣿⣿⣇⠀⠀⠀
-⠀⠀⠀⠀⢀⣠⣼⣿⣿⡏⠀⢠⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠈⣿⣿⣿⡀⠀⠀
-⠀⠀⠀⣰⣿⣿⣿⣿⣿⡇⠀⢸⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⡇⠀⠀
-⠀⠀⢰⣿⣿⡿⣿⣿⣿⡇⠀⠘⣿⣿⣿⣧⠀⠀⠀⠀⠀⠀⢀⣸⣿⣿⣿⠁⠀⠀
-⠀⠀⣿⣿⣿⠁⣿⣿⣿⡇⠀⠀⠻⣿⣿⣿⣷⣶⣶⣶⣶⣶⣿⣿⣿⣿⠃⠀⠀⠀
-⠀⢰⣿⣿⡇⠀⣿⣿⣿⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀⠀⠀⠀
-⠀⢸⣿⣿⡇⠀⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠉⠛⠛⠛⠉⢉⣿⣿⠀⠀⠀⠀⠀⠀
-⠀⢸⣿⣿⣇⠀⣿⣿⣿⠀⠀⠀⠀⠀⢀⣤⣤⣤⡀⠀⠀⢸⣿⣿⣿⣷⣦⠀⠀⠀
-⠀⠀⢻⣿⣿⣶⣿⣿⣿⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣦⡀⠀⠉⠉⠻⣿⣿⡇⠀⠀
-⠀⠀⠀⠛⠿⣿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀⠈⠹⣿⣿⣇⣀⠀⣠⣾⣿⣿⡇⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣦⣤⣤⣤⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠻⢿⣿⣿⣿⣿⣿⣿⠿⠋⠉⠛⠋⠉⠉⠁⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠁
-    """
-    await ctx.send(f"Here amongsus for you:\n```\n{art}\n```")
+    response = requests.get("http://artii.herokuapp.com/make?text=random") 
+    if response.status_code == 200:
+        random_art = response.text
+        await ctx.send(f"Here's a random ASCII art:\n```\n{random_art}\n```")
+    else:
+        await ctx.send("Failed to fetch random ASCII art from the API.")
 
 @bot.command(aliases=['8ball'])
 async def ball(ctx,*, question):
@@ -340,6 +350,17 @@ async def spam(ctx, amount:int, *, message):
     for i in range(amount):
         await ctx.send(message)
 
+@bot.command()
+async def husbando(ctx):
+    categories = ["anime", "game", "real-life"]
+
+    category = random.choice(categories)
+
+    params = {"category": category, "limit": 1}
+    response = requests.get("https://api.men.png", params=params)
+    husbando_image = response.json()["data"][0]["url"]
+
+    await ctx.send(husbando_image)
 
 @bot.command()
 async def flipcoin(ctx):
@@ -716,18 +737,5 @@ async def botrole(ctx):
     await ctx.guild.me.add_roles(bot_role)
 
     await ctx.send(f'Successfully created the bot role: {bot_role.name}')
-
-@bot.command()
-@cooldown.command()
-async def astol(ctx):
-    # Send a request to the API endpoint
-    response = requests.get("https://femboyfinder.firestreaker2.gq/api/astolfo")
-    astolfo_image = response.json()["url"]
-
-    channel = ctx.channel
-    await channel.send(astolfo_image)
-
-    await asyncio.sleep(10)
-    cooldown.reset_cooldown(ctx)
 
 bot.run(os.environ['TOKEN'])
