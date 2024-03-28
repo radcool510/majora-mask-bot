@@ -308,15 +308,21 @@ async def astolfo_error(ctx, error):
         await ctx.send(f"Please wait {error.retry_after:.0f} seconds before using this command again.")
 
 
-
 @bot.command()
-async def ascii(ctx):
-    response = requests.get("http://artii.herokuapp.com/make?text=random") 
+async def random_ascii(ctx):
+    response = requests.get("https://artii.herokuapp.com/fonts_list")
     if response.status_code == 200:
-        random_art = response.text
-        await ctx.send(f"Here's a random ASCII art:\n```\n{random_art}\n```")
+        fonts = response.json()
+        font = random.choice(fonts)
+        art_response = requests.get(f"https://artii.herokuapp.com/make?text=random&font={font}")
+        if art_response.status_code == 200:
+            random_art = art_response.text
+            await ctx.send(f"Here's a random ASCII art:\n```\n{random_art}\n```")
+        else:
+            await ctx.send("Failed to fetch random ASCII art from the API.")
     else:
-        await ctx.send("Failed to fetch random ASCII art from the API.")
+        await ctx.send("Failed to fetch font list from the API.")
+
 
 @bot.command(aliases=['8ball'])
 async def ball(ctx,*, question):
