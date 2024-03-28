@@ -19,6 +19,8 @@ from bs4 import BeautifulSoup
 
 bot = commands.Bot("$", intents=discord.Intents.all())
 
+image_cache = {"sfw": [], "nsfw": []}
+
 ALLOWED_USER_ID = 11097879047213686875
 
 snake_board_size = 10
@@ -498,6 +500,18 @@ async def waifu(ctx, category: str = None):
 
     if data and 'url' in data:
         waifu_url = data['url']
+        if waifu_url in image_cache[category]:
+            new_response = requests.get(api_url)
+            try:
+                new_data = new_response.json()
+                if new_data and 'url' in new_data:
+                    waifu_url = new_data['url']
+            except ValueError:
+                pass
+        image_cache[category].append(waifu_url)
+        if len(image_cache[category]) > 4:
+            image_cache[category].pop(0)
+
         await ctx.send(waifu_url)
     else:
         await ctx.send(f"sorry, i was too lazy to fetch a waifu image")
