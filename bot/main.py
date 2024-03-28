@@ -293,35 +293,20 @@ async def kick(ctx, member: discord.Member, *, reason=None):
 async def astolfo(ctx):
     try:
         response = requests.get("https://femboyfinder.firestreaker2.gq/api/astolfo")
-        if response.status_code == 200:
-            astolfo_image = response.json().get('url')
-            await ctx.send(astolfo_image)
-        else:
-            await ctx.send("Failed to fetch Astolfo image from the API.")
+        response.raise_for_status()
+        astolfo_image = response.json().get('url')
+        await ctx.send(astolfo_image)
+    except requests.RequestException as e:
+        print(f"An error occurred while fetching Astolfo image: {e}")
+        await ctx.send("Failed to fetch Astolfo image from the API. Please try again later.")
     except Exception as e:
-        print(f"An error occurred: {e}")
-        await ctx.send("Failed to fetch Astolfo image from the API.")
+        print(f"An unexpected error occurred: {e}")
+        await ctx.send("An unexpected error occurred. Please try again later.")
 
 @astolfo.error
 async def astolfo_error(ctx, error):
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.send(f"Please wait {error.retry_after:.0f} seconds before using this command again.")
-
-
-@bot.command()
-async def random_ascii(ctx):
-    response = requests.get("https://artii.herokuapp.com/fonts_list")
-    if response.status_code == 200:
-        fonts = response.json()
-        font = random.choice(fonts)
-        art_response = requests.get(f"https://artii.herokuapp.com/make?text=random&font={font}")
-        if art_response.status_code == 200:
-            random_art = art_response.text
-            await ctx.send(f"Here's a random ASCII art:\n```\n{random_art}\n```")
-        else:
-            await ctx.send("Failed to fetch random ASCII art from the API.")
-    else:
-        await ctx.send("Failed to fetch font list from the API.")
 
 
 @bot.command(aliases=['8ball'])
