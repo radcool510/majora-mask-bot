@@ -717,5 +717,19 @@ async def botrole(ctx):
 
     await ctx.send(f'Successfully created the bot role: {bot_role.name}')
 
+@tasks.loop(minutes=random.randint(5, 120))
+async def XDDD():
+    response = requests.get("https://femboyfinder.firestreaker2.gq/api/astolfo")
+    astolfo_image = response.json()["url"]
+
+    channel = bot.get_channel(1188640227724623992)
+    await channel.send(astolfo_image)
+
+@XDDD.before_loop
+async def before_XDDD():
+    await bot.wait_until_ready()
+
+XDDD.start()
+
 
 bot.run(os.environ['TOKEN'])
