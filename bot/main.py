@@ -509,8 +509,8 @@ async def waifu(ctx, category: str = None):
             except ValueError:
                 pass
         image_cache[category].append(waifu_url)
-        if len(image_cache[category]) > 4:
-            image_cache[category].pop(0)
+        if len(image_cache[category]) > 100:
+            image_cache[category] = image_cache[category][-100:]
 
         await ctx.send(waifu_url)
     else:
