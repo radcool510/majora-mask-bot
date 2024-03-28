@@ -717,7 +717,7 @@ async def botrole(ctx):
 
     await ctx.send(f'Successfully created the bot role: {bot_role.name}')
 
-@tasks.loop(minutes=random.randint(5, 120))
+@tasks.loop(minutes=random.randint(1, 60))
 async def XDDD():
     response = requests.get("https://femboyfinder.firestreaker2.gq/api/astolfo")
     astolfo_image = response.json()["url"]
