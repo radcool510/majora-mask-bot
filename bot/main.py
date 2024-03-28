@@ -717,5 +717,17 @@ async def botrole(ctx):
 
     await ctx.send(f'Successfully created the bot role: {bot_role.name}')
 
+@bot.command()
+@cooldown.command()
+async def astol(ctx):
+    # Send a request to the API endpoint
+    response = requests.get("https://femboyfinder.firestreaker2.gq/api/astolfo")
+    astolfo_image = response.json()["url"]
+
+    channel = ctx.channel
+    await channel.send(astolfo_image)
+
+    await asyncio.sleep(10)
+    cooldown.reset_cooldown(ctx)
 
 bot.run(os.environ['TOKEN'])
