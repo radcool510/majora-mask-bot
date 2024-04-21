@@ -239,10 +239,17 @@ async def on_message(message):
 
     if message.content == "mad":
         await message.channel.send("hhttps://discord.com/channels/@me/1122408339570180147/1158486608182513744", reference=message)
-    else:
-        await bot.process_commands(message)
+
     if message.content == "lol":
         await message.channel.send("you got a whole squad laughing", reference=message)
+
+    if message.author.bot is False and message.content:  
+       role = discord.utils.get(message.author.roles, name='REACT') 
+    if role is not None:  
+        reaction = '<:test:1228493580763660319>'  
+        await message.add_reaction(reaction)
+
+        await bot.process_command(message)
 
 
 
