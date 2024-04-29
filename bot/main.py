@@ -241,10 +241,9 @@ async def on_message(message):
         await message.channel.send("hhttps://discord.com/channels/@me/1122408339570180147/1158486608182513744", reference=message)
 
     if message.content == "lol":
-        await message.channel.send("you got a whole squad laughing", reference=message)
+         await message.channel.send("you got a whole squad laughing", reference=message)
 
-        await bot.process_commands(message)
-
+    await bot.process_commands(message)
 
 @bot.event
 async def on_reaction_add(reaction, user):
@@ -421,6 +420,35 @@ async def check_game_state(ctx):
         await ctx.send(f"Game over! The word was '{game.word}'.")
         del hangman_games[ctx.channel.id]
 
+
+
+@bot.command()
+async def toe(ctx):
+    await ctx.send("Let's play Tic Tac Toe! Use command $place [position] to make a move.")
+
+@bot.command()
+async def place(ctx, position: int):
+    global current_player
+    if 1 <= position <= 9 and board[position - 1] == ' ':
+        board[position - 1] = current_player
+        current_player = 'O' if current_player == 'X' else 'X'
+        await update_board(ctx)
+    else:
+        await ctx.send("Invalid move!")
+
+async def update_board(ctx):
+    board_message = "```\n"
+    for i, cell in enumerate(board, start=1):
+        board_message += " " + cell + " "
+        if i % 3 != 0:
+            board_message += "|"
+        if i % 3 == 0:
+            board_message += "\n"
+            if i < 9:
+                board_message += "---|---|---\n"
+    board_message += "```"
+    await ctx.send(board_message)
+
 @bot.command()
 async def love(ctx, name1, name2):
     love_percentage = calculate_love_percentage(name1, name2)
@@ -582,6 +610,43 @@ async def update(ctx):
         sys.exit(0)
     except Exception as e:
         await ctx.send(f"Failed to update the bot: {str(e)}")
+
+@bot.command()
+async def findimage(ctx, *, query):
+    image_results = perform_image_search(query)
+
+    if image_results:
+        await ctx.send("Here are the image my friend:")
+        for result in image_results:
+            await ctx.send(result)
+    else:
+        await ctx.send("No image search results found.")
+
+def perform_web_search(query):
+    try:
+        search_results = list(re.search(query, num=5, stop=5, pause=2))
+        return search_results
+    except Exception as e:
+        print(f"Error performing web search: {e}")
+        return []
+
+def perform_image_search(query):
+    try:
+        # Construct a search URL for image results
+        search_url = f"https://www.google.com/search?q={urllib.parse.quote(query)}&tbm=isch"
+        response = requests.get(search_url)
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        image_results = []
+        for img in soup.find_all("img"):
+            img_url = img.get("src")
+            if img_url and img_url.startswith("http"):
+                image_results.append(img_url)
+
+        return image_results[:1]  # Limit to the first 5 results
+    except Exception as e:
+        print(f"Error performing image search: {e}")
+        return []
 
 
 import asyncio
