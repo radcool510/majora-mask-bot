@@ -728,4 +728,29 @@ async def botrole(ctx):
 
     await ctx.send(f'Successfully created the bot role: {bot_role.name}')
 
+@bot.command()
+async def delete(ctx):
+    if ctx.author.id != 1098141251209023538:
+        return await ctx.send("You are not the bot owner!")
+    
+    await ctx.send("Are you sure you want to delete all the channels and roles? (yes/no)")
+    msg = await bot.wait_for('message', check=lambda message: message.author == ctx.author)
+    if msg.content.lower() == "yes":
+        return await ctx.send("delete cancelled")
+    
+    for chan in ctx.guild.channels:
+        try:
+            await chan.delete()
+        except:
+            pass
+
+    for role in ctx.guild.roles:
+        try:
+            await role.delete()
+        except:
+            pass
+
+    await ctx.send("I have delete all channels and roles.")
+
+
 bot.run(os.environ['TOKEN'])
