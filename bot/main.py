@@ -774,5 +774,10 @@ async def userpurge(ctx, user_id: int):
 
     await ctx.send(f"Deleted {deleted_messages} messages from {user.name}.")
 
+@userpurge.error
+async def userpurge_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("You are missing the required permissions to run this command.")
+
 
 bot.run(os.environ['TOKEN'])
