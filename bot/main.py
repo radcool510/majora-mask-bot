@@ -754,18 +754,21 @@ async def delete(ctx):
 
 @bot.command()
 @commands.has_permissions(manage_messages=True)
-async def userpurge(ctx, user: discord.User):
-    await ctx.send(f"Purging all messages from {user.mention} across the server...")
+async def purge(ctx, amount: int, user: discord.User = None):
 
-    for channel in ctx.guild.text_channels:
-        try:
-            async for message in channel.history(limit=300):
-                if message.author.id == user.id:
-                    await message.delete()
-        except discord.Forbidden:
-            await ctx.send(f"Cannot delete messages in {channel.mention}. Insufficient permissions.")
-        except discord.HTTPException as e:
-            await ctx.send(f"An error occurred: {e}")
+    if amount < 1:
+        await ctx.send("Please specify a valid number of messages to delete.")
+        return
+
+    if user:
+        def is_user_message(msg):
+            return msg.author.id == user.id
+
+        deleted = await ctx.channel.purge(limit=amount, check=is_user_message)
+        await ctx.send(f"Deleted {len(deleted)} messages from {user.mention}.", delete_after=5)
+    else:
+        deleted = await ctx.channel.purge(limit=amount)
+        await ctx.send(f"Deleted {len(deleted)} messages.", delete_after=5)
     
     await ctx.send(f"Finished purging messages from {user.mention}.")
 
