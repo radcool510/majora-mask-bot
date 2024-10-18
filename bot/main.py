@@ -755,13 +755,21 @@ async def delete(ctx):
 @bot.command()
 @commands.has_permissions(manage_messages=True)
 async def userpurge(ctx, user: discord.User):
-    """Deletes all messages from the specified user in all channels."""
     
-    deleted_messages = 0 
+    # Check if the bot has the necessary permissions
+    if not ctx.guild.me.guild_permissions.manage_messages:
+        await ctx.send("I do not have permission to manage messages.")
+        return
+    if not ctx.guild.me.guild_permissions.read_message_history:
+        await ctx.send("I do not have permission to read message history.")
+        return
+
+    deleted_messages = 0  
+
     
     for channel in ctx.guild.text_channels:
         try:
-            
+
             async for message in channel.history(limit=None):
                 if message.author.id == user.id:
                     await message.delete()  
