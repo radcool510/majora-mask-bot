@@ -754,19 +754,18 @@ async def delete(ctx):
 
 @bot.command()
 @commands.has_permissions(manage_messages=True)
-async def userpurge(ctx, user_id: int):
-    user = await bot.fetch_user(user_id)
-    if user is None:
-        await ctx.send("User  not found.")
-        return
-
-    deleted_messages = 0
+async def userpurge(ctx, user: discord.User):
+    """Deletes all messages from the specified user in all channels."""
+    
+    deleted_messages = 0 
+    
     for channel in ctx.guild.text_channels:
         try:
+            
             async for message in channel.history(limit=None):
                 if message.author.id == user.id:
-                    await message.delete()
-                    deleted_messages += 1
+                    await message.delete()  
+                    deleted_messages += 1   
         except discord.Forbidden:
             await ctx.send(f"I do not have permission to read messages in {channel.name}.")
         except discord.HTTPException:
@@ -778,6 +777,7 @@ async def userpurge(ctx, user_id: int):
 async def userpurge_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("You are missing the required permissions to run this command.")
-
+    elif isinstance(error, commands.BadArgument):
+        await ctx.send("Please mention a valid user.")
 
 bot.run(os.environ['TOKEN'])
