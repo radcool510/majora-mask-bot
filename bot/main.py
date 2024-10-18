@@ -759,7 +759,7 @@ async def userpurge(ctx, user: discord.User):
 
     for channel in ctx.guild.text_channels:
         try:
-            async for message in channel.history(limit=None):
+            async for message in channel.history(limit=300):
                 if message.author.id == user.id:
                     await message.delete()
         except discord.Forbidden:
