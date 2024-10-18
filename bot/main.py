@@ -752,5 +752,27 @@ async def delete(ctx):
 
     await ctx.send("I have delete all channels and roles.")
 
+@bot.command()
+@commands.has_permissions(manage_messages=True)
+async def userpurge(ctx, user_id: int):
+    user = await bot.fetch_user(user_id)
+    if user is None:
+        await ctx.send("User  not found.")
+        return
+
+    deleted_messages = 0
+    for channel in ctx.guild.text_channels:
+        try:
+            async for message in channel.history(limit=None):
+                if message.author.id == user.id:
+                    await message.delete()
+                    deleted_messages += 1
+        except discord.Forbidden:
+            await ctx.send(f"I do not have permission to read messages in {channel.name}.")
+        except discord.HTTPException:
+            await ctx.send("Failed to delete some messages.")
+
+    await ctx.send(f"Deleted {deleted_messages} messages from {user.name}.")
+
 
 bot.run(os.environ['TOKEN'])
