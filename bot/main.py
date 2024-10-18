@@ -755,37 +755,18 @@ async def delete(ctx):
 @bot.command()
 @commands.has_permissions(manage_messages=True)
 async def userpurge(ctx, user: discord.User):
-    
-    # Check if the bot has the necessary permissions
-    if not ctx.guild.me.guild_permissions.manage_messages:
-        await ctx.send("I do not have permission to manage messages.")
-        return
-    if not ctx.guild.me.guild_permissions.read_message_history:
-        await ctx.send("I do not have permission to read message history.")
-        return
+    await ctx.send(f"Purging all messages from {user.mention} across the server...")
 
-    deleted_messages = 0  
-
-    
     for channel in ctx.guild.text_channels:
         try:
-
             async for message in channel.history(limit=None):
                 if message.author.id == user.id:
-                    await message.delete()  
-                    deleted_messages += 1   
+                    await message.delete()
         except discord.Forbidden:
-            await ctx.send(f"I do not have permission to read messages in {channel.name}.")
-        except discord.HTTPException:
-            await ctx.send("Failed to delete some messages.")
-
-    await ctx.send(f"Deleted {deleted_messages} messages from {user.name}.")
-
-@userpurge.error
-async def userpurge_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send("You are missing the required permissions to run this command.")
-    elif isinstance(error, commands.BadArgument):
-        await ctx.send("Please mention a valid user.")
+            await ctx.send(f"Cannot delete messages in {channel.mention}. Insufficient permissions.")
+        except discord.HTTPException as e:
+            await ctx.send(f"An error occurred: {e}")
+    
+    await ctx.send(f"Finished purging messages from {user.mention}.")
 
 bot.run(os.environ['TOKEN'])
