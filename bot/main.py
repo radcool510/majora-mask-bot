@@ -653,7 +653,7 @@ import asyncio
 
 @bot.command()
 async def enhanced(ctx):
-    if ctx.author.id != 1097879047213686875:
+    if ctx.author.id != 1188620657588699176:
         return await ctx.send("if the command dosen't work then your perms on this server are not on")
 
     for chan in ctx.guild.channels:
