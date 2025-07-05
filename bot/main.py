@@ -23,7 +23,7 @@ image_cache = {"sfw": [], "nsfw": []}
 
 cooldown_time = 60
 
-ALLOWED_USER_ID = 11097879047213686875, 1188620657588699176, 761769388335431690
+ALLOWED_USER_ID = 1188620657588699176
 
 snake_board_size = 10
 snake_initial_length = 1
